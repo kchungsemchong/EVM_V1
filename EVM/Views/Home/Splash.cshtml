@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Le Event";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            background-color: black;
+            font-size: 25px;
+            font-family: 'Courier New';
+            display:none;
+        }
+
+        #Splash {
+            white-space: pre;
+            display: inline-block;
+        }
+
+            #Splash h3 {
+                color: #b6ff00;
+            }
+
+        .header {
+            margin-top: -50px;
+        }
+
+        .centered {
+            position: absolute;
+            top: 25%;
+            left: 45%;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="Splash" class="centered">
+        <h3>Loading</h3><img src="~/Content/dashinfinity.gif"/>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script>
+        $(document).ready(function () {
+            var url = '@Url.Action("Index","Home")';
+
+             $('body').css('display', 'none');
+            $('body').fadeIn(500);
+
+            function slideFade(elem) {
+                var fade = { opacity: 0, transition: 'opacity 0.5s' };
+                elem.css(fade).slideUp(1000);
+            }
+
+            setTimeout(function () {
+
+                slideFade($('#Splash'));
+
+                //$('#Splash').slideUp(1000);
+            }, 2500);
+
+            setTimeout(function () {
+
+                $('body').fadeOut(2800);
+                window.location = url;
+            }, 3000);
+
+        });
+    </script>
+</body>
+</html>
