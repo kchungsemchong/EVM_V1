@@ -186,10 +186,12 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="BusinessLogic\ArtistRepo.cs" />
     <Compile Include="BusinessLogic\IArtistRepo.cs" />
+    <Compile Include="BusinessLogic\ILocationRepo.cs" />
+    <Compile Include="BusinessLogic\LocationRepo.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Extension.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
