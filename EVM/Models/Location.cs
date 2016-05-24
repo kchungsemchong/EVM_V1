@@ -15,5 +15,6 @@ namespace EVM.Models
         public string Name { get; set; }
         [Url]
         public string GoogleMapsLink { get; set; }
+        public string Status { get; set; }
     }
 }
