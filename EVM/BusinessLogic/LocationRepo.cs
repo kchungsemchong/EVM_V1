@@ -6,7 +6,7 @@ using EVM.Models;
 
 namespace EVM.BusinessLogic
 {
-    public class LocationRepo
+    public class LocationRepo : ILocationRepo
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
         private readonly Helper helper = new Helper();

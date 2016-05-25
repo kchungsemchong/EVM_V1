@@ -9,9 +9,9 @@ namespace EVM.BusinessLogic
 {
     public interface ILocationRepo
     {
-        IEnumerable<LocationRepo> Retrieve();
-        LocationRepo Get(int id);
-        LocationRepo Create(LocationRepo item);
-        LocationRepo Update(LocationRepo item);
+        IEnumerable<Location> Retrieve();
+        Location Get(int id);
+        Location Create(Location item);
+        Location Update(Location item);
     }
 }
