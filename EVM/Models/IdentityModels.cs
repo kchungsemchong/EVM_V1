@@ -32,6 +32,7 @@ namespace EVM.Models
         }
 
         public DbSet<Artist> Artists { get; set; }
+        public DbSet<Event> Events { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Outlet> Outlets { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }

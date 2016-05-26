@@ -15,7 +15,10 @@ namespace EVM.Models
         public int LocationId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime EventDate { get; set; }
+        public Nullable<DateTime> EventDate { get; set; }
         public Nullable<DateTime> DtAdded { get; set; }
+        public string Status { get; set; }
+        [ForeignKey("LocationId")]
+        public Location Location { get; set; }
     }
 }

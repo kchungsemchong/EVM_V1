@@ -239,6 +239,10 @@
     <Compile Include="Migrations\201605260354516_Add Status to Sponsor.Designer.cs">
       <DependentUpon>201605260354516_Add Status to Sponsor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605261656594_Add Event.cs" />
+    <Compile Include="Migrations\201605261656594_Add Event.Designer.cs">
+      <DependentUpon>201605261656594_Add Event.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -378,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605260354516_Add Status to Sponsor.resx">
       <DependentUpon>201605260354516_Add Status to Sponsor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605261656594_Add Event.resx">
+      <DependentUpon>201605261656594_Add Event.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
