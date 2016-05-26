@@ -13,6 +13,9 @@ namespace EVM.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SponsorId { get; set; }
         public string Name { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Date Added")]
         public Nullable<DateTime> DtAdded { get; set; }
+        public string Status { get; set; }
     }
 }

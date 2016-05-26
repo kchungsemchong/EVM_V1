@@ -187,12 +187,18 @@
     <Compile Include="BusinessLogic\ArtistRepo.cs" />
     <Compile Include="BusinessLogic\IArtistRepo.cs" />
     <Compile Include="BusinessLogic\ILocationRepo.cs" />
+    <Compile Include="BusinessLogic\IOutletRepo.cs" />
+    <Compile Include="BusinessLogic\ISponsorRepo.cs" />
     <Compile Include="BusinessLogic\LocationRepo.cs" />
+    <Compile Include="BusinessLogic\OutletRepo.cs" />
+    <Compile Include="BusinessLogic\SponsorRepo.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OutletsController.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -224,6 +230,14 @@
     <Compile Include="Migrations\201605241605451_Add Status to Location.cs" />
     <Compile Include="Migrations\201605241605451_Add Status to Location.Designer.cs">
       <DependentUpon>201605241605451_Add Status to Location.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605260341599_Add Status,Street,City to Outlet.cs" />
+    <Compile Include="Migrations\201605260341599_Add Status,Street,City to Outlet.Designer.cs">
+      <DependentUpon>201605260341599_Add Status,Street,City to Outlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605260354516_Add Status to Sponsor.cs" />
+    <Compile Include="Migrations\201605260354516_Add Status to Sponsor.Designer.cs">
+      <DependentUpon>201605260354516_Add Status to Sponsor.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -328,7 +342,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Artists\" />
     <Folder Include="Views\Locations\" />
+    <Folder Include="Views\Outlets\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -355,6 +371,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605241605451_Add Status to Location.resx">
       <DependentUpon>201605241605451_Add Status to Location.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605260341599_Add Status,Street,City to Outlet.resx">
+      <DependentUpon>201605260341599_Add Status,Street,City to Outlet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605260354516_Add Status to Sponsor.resx">
+      <DependentUpon>201605260354516_Add Status to Sponsor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

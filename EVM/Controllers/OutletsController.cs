@@ -9,16 +9,16 @@ using EVM.Models;
 
 namespace EVM.Controllers
 {
-    public class LocationsController : Controller
+    public class OutletsController : Controller
     {
-        private readonly ILocationRepo _repo;
+        private readonly IOutletRepo _repo;
 
-        public LocationsController(ILocationRepo repository)
+        public OutletsController(IOutletRepo repository)
         {
             _repo = repository;
         }
 
-        // GET: Locations
+        // GET: Outlets
         public ActionResult Index()
         {
             try
@@ -40,7 +40,7 @@ namespace EVM.Controllers
             }
         }
 
-        // GET: Locations/Details/5
+        // GET: Outlets/Details/5
         public ActionResult Details(int id)
         {
             try
@@ -50,7 +50,7 @@ namespace EVM.Controllers
                     if (id > 0)
                     {
                         var record = _repo.Get(id);
-                        if (record.LocationId < 1)
+                        if (record.OutletId < 1)
                             return RedirectToAction("Error404", "Home");
 
                         return View(record);
@@ -67,7 +67,7 @@ namespace EVM.Controllers
             }
         }
 
-        // GET: Locations/Create
+        // GET: Outlets/Create
         public ActionResult Create()
         {
             try
@@ -85,10 +85,10 @@ namespace EVM.Controllers
             }
         }
 
-        // POST: Locations/Create
+        // POST: Outlets/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Location item)
+        public ActionResult Create(Outlet item)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace EVM.Controllers
                     if (ModelState.IsValid)
                     {
                         var newRecord = _repo.Create(item);
-                        if (newRecord.LocationId < 1)
+                        if (newRecord.OutletId < 1)
                             return RedirectToAction("Error404", "Home");
 
                         return RedirectToAction("Index", "Locations");
@@ -112,7 +112,7 @@ namespace EVM.Controllers
             }
         }
 
-        // GET: Locations/Edit/5
+        // GET: Outlets/Edit/5
         public ActionResult Edit(int id)
         {
             try
@@ -135,10 +135,10 @@ namespace EVM.Controllers
             }
         }
 
-        // POST: Locations/Edit/5
+        // POST: Outlets/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Location item)
+        public ActionResult Edit(Outlet item)
         {
             try
             {
@@ -146,10 +146,10 @@ namespace EVM.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        if (item.LocationId > 0)
+                        if (item.OutletId > 0)
                         {
                             var updatedRecord = _repo.Update(item);
-                            if (updatedRecord.LocationId < 1)
+                            if (updatedRecord.OutletId < 1)
                                 return RedirectToAction("Error404", "Home");
 
                             return RedirectToAction("Index", "Locations");
