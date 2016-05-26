@@ -28,6 +28,14 @@ namespace EVM
                       "~/Content/Customer.css",
                       "~/Content/font-awesome.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Admincss").Include(
+                      "~/Content/light-bootstrap-dashboard.css",
+                       "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/AdminJS").Include(
+                     "~/Scripts/light-bootstrap-dashboard.js"));
         }
     }
 }
