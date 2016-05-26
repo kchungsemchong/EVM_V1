@@ -6,46 +6,43 @@ using EVM.Models;
 
 namespace EVM.BusinessLogic
 {
-    public class OutletRepo : IOutletRepo
+    public class SponsorRepo : ISponsorRepo
     {
         private readonly ApplicationDbContext db = new ApplicationDbContext();
         private readonly Helper helper = new Helper();
 
-        public IEnumerable<Outlet> Retrieve()
+        public IEnumerable<Sponsor> Retrieve()
         {
-            var records = (from outlet in db.Outlets
-                           where outlet.Status == "Active"
-                           select outlet).ToList();
+            var records = (from sponsor in db.Sponsors
+                           where sponsor.Status == "Active"
+                           select sponsor).ToList();
 
             return records;
         }
-        public Outlet Get(int id)
+        public Sponsor Get(int id)
         {
-            var record = (from outlet in db.Outlets
-                          where outlet.OutletId == id
-                          select outlet).FirstOrDefault();
+            var record = (from sponsor in db.Sponsors
+                          where sponsor.SponsorId == id
+                          select sponsor).FirstOrDefault();
 
             return record;
         }
-        public Outlet Create(Outlet item)
+        public Sponsor Create(Sponsor item)
         {
             bool duplicateExists = true;
-            item.City = helper.ConvertToTitleCase(item.City);
             item.Name = helper.ConvertToTitleCase(item.Name);
             duplicateExists = checkForDuplicates(item.Name);
             if (duplicateExists == true)
                 return item;
 
-            db.Outlets.Add(item);
+            db.Sponsors.Add(item);
             db.SaveChanges();
 
             return item;
         }
-        public Outlet Update(Outlet item)
+        public Sponsor Update(Sponsor item)
         {
-            var recordToUpdate = Get(item.OutletId);
-            recordToUpdate.City = item.City;
-            recordToUpdate.Street = item.Street;
+            var recordToUpdate = Get(item.SponsorId);
             recordToUpdate.Name = item.Name;
 
             if (item.Status == "Archived")
@@ -68,7 +65,7 @@ namespace EVM.BusinessLogic
 
         public bool checkForDuplicates(string name)
         {
-            var records = (from n in db.Outlets
+            var records = (from n in db.Sponsors
                            where n.Name == name
                            select n).ToList();
             if (records.Count > 0)
