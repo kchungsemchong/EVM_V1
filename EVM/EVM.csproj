@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201605260341599_Add Status,Street,City to Outlet.Designer.cs">
       <DependentUpon>201605260341599_Add Status,Street,City to Outlet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605260354516_Add Status to Sponsor.cs" />
+    <Compile Include="Migrations\201605260354516_Add Status to Sponsor.Designer.cs">
+      <DependentUpon>201605260354516_Add Status to Sponsor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -360,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605260341599_Add Status,Street,City to Outlet.resx">
       <DependentUpon>201605260341599_Add Status,Street,City to Outlet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605260354516_Add Status to Sponsor.resx">
+      <DependentUpon>201605260354516_Add Status to Sponsor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
