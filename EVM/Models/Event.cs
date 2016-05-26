@@ -18,7 +18,9 @@ namespace EVM.Models
         public Nullable<DateTime> EventDate { get; set; }
         public Nullable<DateTime> DtAdded { get; set; }
         public string Status { get; set; }
+
         [ForeignKey("LocationId")]
         public Location Location { get; set; }
+        public IEnumerable<Tariff> Tariffs { get; set; }
     }
 }

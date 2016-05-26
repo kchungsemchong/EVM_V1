@@ -13,8 +13,11 @@ namespace EVM.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TariffId { get; set; }
         public int EventId { get; set; }
+        [Required]
         public string Name { get; set; }
-        public int SeatsAvailable { get; set; }
-        public Nullable<DateTime> Deadline { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public int Price { get; set; }
+        [ForeignKey("EventId")]
+        public Event Event { get; set; }
     }
 }

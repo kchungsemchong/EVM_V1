@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201605261704120_Add SponsorEvents.Designer.cs">
       <DependentUpon>201605261704120_Add SponsorEvents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605261716165_Add Tariffs.cs" />
+    <Compile Include="Migrations\201605261716165_Add Tariffs.Designer.cs">
+      <DependentUpon>201605261716165_Add Tariffs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -393,6 +397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605261704120_Add SponsorEvents.resx">
       <DependentUpon>201605261704120_Add SponsorEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605261716165_Add Tariffs.resx">
+      <DependentUpon>201605261716165_Add Tariffs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
