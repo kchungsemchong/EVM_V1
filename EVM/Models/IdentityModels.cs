@@ -36,5 +36,6 @@ namespace EVM.Models
         public DbSet<Location> Locations { get; set; }
         public DbSet<Outlet> Outlets { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
+        public DbSet<SponsorEvent> SponsorEvents { get; set; }
     }
 }
