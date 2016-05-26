@@ -14,7 +14,7 @@
             background-color: black;
             font-size: 25px;
             font-family: 'Courier New';
-            display:none;
+            display: none;
         }
 
         #Splash {
@@ -35,8 +35,6 @@
             top: 25%;
             left: 45%;
         }
-
-
     </style>
 </head>
 <body>
@@ -50,7 +48,7 @@
         $(document).ready(function () {
             var url = '@Url.Action("Index","Home")';
 
-             $('body').css('display', 'none');
+            $('body').css('display', 'none');
             $('body').fadeIn(500);
 
             function slideFade(elem) {
