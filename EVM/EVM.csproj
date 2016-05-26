@@ -189,6 +189,7 @@
     <Compile Include="BusinessLogic\ILocationRepo.cs" />
     <Compile Include="BusinessLogic\LocationRepo.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -318,6 +319,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Artists\" />
     <Folder Include="Views\Locations\" />
   </ItemGroup>
   <ItemGroup>
