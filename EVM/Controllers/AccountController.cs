@@ -17,6 +17,7 @@ namespace EVM.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -159,12 +160,19 @@ namespace EVM.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var user = new ApplicationUser
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.FirstName + "" + model.LastName,
+                        Email = model.Email,
+                        Status = "Active"
+                    };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
+                        new Task(() => { SendEmailNotification(model.Email, "Activation"); }).Start();
                         return RedirectToAction("Index", "Home");
                     }
                     AddErrors(result);
@@ -174,6 +182,33 @@ namespace EVM.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        //public async Task<ActionResult> DeactivateAccount(string id)
+        //{
+        //    //try
+        //    //{
+        //    //    if (User.IsInRole("SuperAdmin"))
+        //    //    {
+        //    //        var record = (from user in db.Users
+        //    //                      where user.Id == id
+        //    //                      select user).FirstOrDefault();
+
+        //    //        if (String.IsNullOrEmpty(record.Id))
+        //    //            return RedirectToAction("RetrieveAdminAccounts", "Account");
+
+        //    //        record.Status = "Deactivated";
+        //    //        db.SaveChanges();
+
+        //    //        new Task(() => { SendEmailNotification(record.Email, "Deactivation"); }).Start();
+        //    //    }
+
+        //    //    return RedirectToAction("Login", "Account");
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
+        //    //}
+        //}
 
         //
         // GET: /Account/ConfirmEmail
