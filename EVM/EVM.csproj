@@ -191,9 +191,11 @@
     <Compile Include="BusinessLogic\ILocationRepo.cs" />
     <Compile Include="BusinessLogic\IOutletRepo.cs" />
     <Compile Include="BusinessLogic\ISponsorRepo.cs" />
+    <Compile Include="BusinessLogic\ITariffRepo.cs" />
     <Compile Include="BusinessLogic\LocationRepo.cs" />
     <Compile Include="BusinessLogic\OutletRepo.cs" />
     <Compile Include="BusinessLogic\SponsorRepo.cs" />
+    <Compile Include="BusinessLogic\TariffRepo.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
