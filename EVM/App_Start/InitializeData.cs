@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EVM.App_Start
 {
@@ -13,6 +15,7 @@ namespace EVM.App_Start
         public void InitializeApplicationData()
         {
             InitializeEventStatus();
+            InitializeRoles();
         }
 
         public void InitializeEventStatus()
@@ -29,6 +32,34 @@ namespace EVM.App_Start
                 {
                     item.Status = "Archived";
                     db.SaveChanges();
+                }
+            }
+        }
+        public void InitializeRoles()
+        {
+            var roleList = new List<string>()
+            {
+                "Admin","SuperAdmin"
+            };
+            if (roleList != null)
+            {
+                var helper = new Helper();
+                foreach (var item in roleList)
+                {
+                    string titleCaseRole = helper.ConvertToTitleCase(item.ToLowerInvariant());
+
+                    var searchResult = (from role in db.Roles
+                                        where role.Name == titleCaseRole
+                                        select role).FirstOrDefault();
+
+                    if (searchResult == null)
+                    {
+                        db.Roles.Add(new IdentityRole()
+                        {
+                            Name = titleCaseRole
+                        });
+                        db.SaveChanges();
+                    }
                 }
             }
         }
