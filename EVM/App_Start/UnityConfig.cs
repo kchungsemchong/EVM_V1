@@ -42,9 +42,11 @@ namespace EVM.App_Start
             // container.RegisterType<IProductRepository, ProductRepository>();
 
             container.RegisterType<IArtistRepo, ArtistRepo>();
+            container.RegisterType<IEventRepo, EventRepo>();
             container.RegisterType<ILocationRepo, LocationRepo>();
             container.RegisterType<IOutletRepo, OutletRepo>();
             container.RegisterType<ISponsorRepo, SponsorRepo>();
+            container.RegisterType<ITariffRepo, TariffRepo>();
         }
     }
 }
