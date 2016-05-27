@@ -205,6 +205,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OutletsController.cs" />
     <Compile Include="Controllers\SponsorsController.cs" />
+    <Compile Include="Controllers\TariffsController.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -369,6 +370,7 @@
     <Folder Include="Views\Events\" />
     <Folder Include="Views\Locations\" />
     <Folder Include="Views\Outlets\" />
+    <Folder Include="Views\Tariffs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
