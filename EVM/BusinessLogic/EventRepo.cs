@@ -31,11 +31,51 @@ namespace EVM.BusinessLogic
 
         public Event Create(Event item)
         {
-            return null;
+            bool duplicateExists = true;
+
+            item.Name = helper.ConvertToTitleCase(item.Name);
+            duplicateExists = checkForDuplicates(item.Name);
+            if (duplicateExists == true)
+                return item;
+
+            item.DtAdded = DateTime.UtcNow;
+            db.Events.Add(item);
+            db.SaveChanges();
+
+            return item;
         }
         public Event Update(Event item)
         {
-            return null;
+            var recordToUpdate = Get(item.EventId);
+            recordToUpdate.Name = item.Name;
+
+            if (item.Status == "Archived")
+            {
+                recordToUpdate.Status = "Archived";
+                db.SaveChanges();
+
+                return item;
+            }
+            if (item.Status == "Active")
+            {
+                recordToUpdate.Status = "Active";
+                db.SaveChanges();
+
+                return item;
+            }
+
+            return item;
+        }
+
+        public bool checkForDuplicates(string name)
+        {
+            var records = (from n in db.Events
+                           where n.Name == name
+                           select n).ToList();
+            if (records.Count > 0)
+                return true;
+
+            return false;
         }
     }
 }
