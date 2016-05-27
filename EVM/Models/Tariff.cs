@@ -19,5 +19,6 @@ namespace EVM.Models
         public int Price { get; set; }
         [ForeignKey("EventId")]
         public Event Event { get; set; }
+        public string Status { get; set; }
     }
 }
