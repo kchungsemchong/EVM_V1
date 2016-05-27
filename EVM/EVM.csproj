@@ -185,7 +185,9 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="BusinessLogic\ArtistRepo.cs" />
+    <Compile Include="BusinessLogic\EventRepo.cs" />
     <Compile Include="BusinessLogic\IArtistRepo.cs" />
+    <Compile Include="BusinessLogic\IEventRepo.cs" />
     <Compile Include="BusinessLogic\ILocationRepo.cs" />
     <Compile Include="BusinessLogic\IOutletRepo.cs" />
     <Compile Include="BusinessLogic\ISponsorRepo.cs" />
