@@ -76,9 +76,15 @@ namespace EVM.Controllers
                 return View(model);
             }
 
+            var user = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            string hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.Password);
+            user.PasswordHash = hashedNewPassword;
+            db.SaveChanges();
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -156,59 +162,76 @@ namespace EVM.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (User.IsInRole("SuperAdmin"))
+            try
             {
-                if (ModelState.IsValid)
+                if (User.IsInRole("Super"))
                 {
-                    var user = new ApplicationUser
+                    if (ModelState.IsValid)
                     {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        UserName = model.FirstName + "" + model.LastName,
-                        Email = model.Email,
-                        Status = "Active"
-                    };
-                    var result = await UserManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
-                    {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        new Task(() => { SendEmailNotification(model.Email, "Activation"); }).Start();
-                        return RedirectToAction("Index", "Home");
-                    }
-                    AddErrors(result);
-                }
-            }
+                        var user = new ApplicationUser
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            UserName = model.FirstName + "" + model.LastName,
+                            Email = model.Email,
+                            Status = "Active"
+                        };
+                        var result = await UserManager.CreateAsync(user, user.Email);
+                        if (result.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                            if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
+                            Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
+                            await sendEmailNotification;
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        AddErrors(result);
+                    }
+                }
+
+                // If we got this far, something failed, redisplay form
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
+            }
         }
 
-        //public async Task<ActionResult> DeactivateAccount(string id)
-        //{
-        //    //try
-        //    //{
-        //    //    if (User.IsInRole("SuperAdmin"))
-        //    //    {
-        //    //        var record = (from user in db.Users
-        //    //                      where user.Id == id
-        //    //                      select user).FirstOrDefault();
+        public async Task<ActionResult> DeactivateAccount(string id)
+        {
+            try
+            {
+                if (User.IsInRole("SuperAdmin"))
+                {
+                    var record = (from user in db.Users
+                                  where user.Id == id
+                                  select user).FirstOrDefault();
 
-        //    //        if (String.IsNullOrEmpty(record.Id))
-        //    //            return RedirectToAction("RetrieveAdminAccounts", "Account");
+                    if (String.IsNullOrEmpty(record.Id))
+                        return RedirectToAction("RetrieveAdminAccounts", "Account");
 
-        //    //        record.Status = "Deactivated";
-        //    //        db.SaveChanges();
+                    record.Status = "Deactivated";
+                    db.SaveChanges();
+                    Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
+                    await sendEmailNotification;
+                    return RedirectToAction("RetrieveAdminAccounts", "Account");
+                }
 
-        //    //        new Task(() => { SendEmailNotification(record.Email, "Deactivation"); }).Start();
-        //    //    }
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
 
-        //    //    return RedirectToAction("Login", "Account");
-        //    //}
-        //    //catch (Exception ex)
-        //    //{
-        //    //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
-        //    //}
-        //}
+        public ActionResult RetrieveAdminAccounts()
+        {
+            return View();
+        }
 
         //
         // GET: /Account/ConfirmEmail
@@ -495,7 +518,7 @@ namespace EVM.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public static async void SendEmailNotification(string email, string reason)
+        public static async Task SendEmailNotification(string email, string reason)
         {
             string body = String.Empty;
             string baseUri = String.Empty;
