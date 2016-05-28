@@ -14,8 +14,8 @@ namespace EVM.App_Start
 
         public void InitializeApplicationData()
         {
-            //InitializeEventStatus();
-            //InitializeRoles();
+            InitializeEventStatus();
+            InitializeRoles();
         }
 
         public void InitializeEventStatus()
@@ -39,7 +39,7 @@ namespace EVM.App_Start
         {
             var roleList = new List<string>()
             {
-                "Admin","SuperAdmin"
+                "Admin","Super"
             };
             if (roleList != null)
             {
