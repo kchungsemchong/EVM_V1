@@ -36,6 +36,21 @@ namespace EVM
 
             bundles.Add(new ScriptBundle("~/bundles/AdminJS").Include(
                      "~/Scripts/light-bootstrap-dashboard.js"));
+
+            bundles.Add(new StyleBundle("~/Content/jQueryUI").Include(
+                "~/Content/jquery-ui.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/bundles/jQueryUI").Include(
+                "~/Scripts/jquery-ui.js"
+                ));
+
+            bundles.Add(new StyleBundle("~/Content/JAlert").Include(
+                           "~/Content/jAlert-v3.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/JAlert").Include(
+                            "~/Scripts/jAlert-v3.js",
+                            "~/Scripts/jAlert-functions.js"));
         }
     }
 }
