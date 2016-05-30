@@ -1,4 +1,8 @@
-﻿using System;
+﻿using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -6,11 +10,8 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
-using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -76,10 +77,15 @@ namespace EVM.Controllers
                 return View(model);
             }
 
-            var user = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
-            string hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.Password);
-            user.PasswordHash = hashedNewPassword;
-            db.SaveChanges();
+            //var user = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            //string hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.Password);
+            //user.PasswordHash = hashedNewPassword;
+            //db.SaveChanges();
+
+            //string password = db.Users.Where(x => x.Email == model.Email)
+            //                         .Select(x => x.PasswordHash)
+            //                         .Single();
+            //bool passwordMatches = Crypto.VerifyHashedPassword(password, model.Password);
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -159,37 +165,40 @@ namespace EVM.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             try
             {
-                if (User.IsInRole("Super"))
+                //if (User.IsInRole("Super"))
+                //{
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
+                    var user = new ApplicationUser
                     {
-                        var user = new ApplicationUser
-                        {
-                            FirstName = model.FirstName,
-                            LastName = model.LastName,
-                            UserName = model.FirstName + "" + model.LastName,
-                            Email = model.Email,
-                            Status = "Active"
-                        };
-                        var result = await UserManager.CreateAsync(user, user.Email);
-                        if (result.Succeeded)
-                        {
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                            ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                            if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
-                            Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
-                            await sendEmailNotification;
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        UserName = model.FirstName + "" + model.LastName,
+                        Email = model.Email,
+                        Status = "Active"
+                    };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                        if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
 
-                            return RedirectToAction("Index", "Home");
-                        }
-                        AddErrors(result);
+                        //Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
+                        //await sendEmailNotification;
+
+                        return RedirectToAction("Index", "Home");
                     }
+                    AddErrors(result);
                 }
+
+                //}
 
                 // If we got this far, something failed, redisplay form
                 return View();
