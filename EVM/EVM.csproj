@@ -371,12 +371,21 @@
     <Content Include="Views\Artists\Details.cshtml" />
     <Content Include="Views\Artists\Create.cshtml" />
     <Content Include="Views\Artists\Edit.cshtml" />
+    <Content Include="Views\Events\Index.cshtml" />
+    <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
+    <Content Include="Views\Events\ArtistSelection.cshtml" />
+    <Content Include="Views\Locations\Index.cshtml" />
+    <Content Include="Views\Locations\Details.cshtml" />
+    <Content Include="Views\Locations\Create.cshtml" />
+    <Content Include="Views\Locations\Edit.cshtml" />
+    <Content Include="Views\Outlets\Edit.cshtml" />
+    <Content Include="Views\Outlets\Index.cshtml" />
+    <Content Include="Views\Outlets\Create.cshtml" />
+    <Content Include="Views\Outlets\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Events\" />
-    <Folder Include="Views\Locations\" />
-    <Folder Include="Views\Outlets\" />
     <Folder Include="Views\Tariffs\" />
   </ItemGroup>
   <ItemGroup>
