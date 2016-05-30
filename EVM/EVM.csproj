@@ -367,10 +367,13 @@
     <Content Include="Views\Home\Splash.cshtml" />
     <Content Include="Views\Shared\AdminLayout.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Artists\Index.cshtml" />
+    <Content Include="Views\Artists\Details.cshtml" />
+    <Content Include="Views\Artists\Create.cshtml" />
+    <Content Include="Views\Artists\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Artists\" />
     <Folder Include="Views\Events\" />
     <Folder Include="Views\Locations\" />
     <Folder Include="Views\Outlets\" />
