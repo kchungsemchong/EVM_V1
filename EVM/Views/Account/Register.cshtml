@@ -1,7 +1,79 @@
 ﻿@model EVM.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/DefaultLayout.cshtml";
 }
+<style type="text/css">
+    .popover.primary {
+        border-color: #337ab7;
+    }
+
+        .popover.primary > .arrow {
+            border-top-color: #337ab7;
+        }
+
+        .popover.primary > .popover-title {
+            color: #fff;
+            background-color: #337ab7;
+            border-color: #337ab7;
+        }
+
+    .popover.success {
+        border-color: #d6e9c6;
+    }
+
+        .popover.success > .arrow {
+            border-top-color: #d6e9c6;
+        }
+
+        .popover.success > .popover-title {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+    .popover.info {
+        border-color: #bce8f1;
+    }
+
+        .popover.info > .arrow {
+            border-top-color: #bce8f1;
+        }
+
+        .popover.info > .popover-title {
+            color: #31708f;
+            background-color: #d9edf7;
+            border-color: #bce8f1;
+        }
+
+    .popover.warning {
+        border-color: #faebcc;
+    }
+
+        .popover.warning > .arrow {
+            border-top-color: #faebcc;
+        }
+
+        .popover.warning > .popover-title {
+            color: #8a6d3b;
+            background-color: #fcf8e3;
+            border-color: #faebcc;
+        }
+
+    .popover.danger {
+        border-color: #ebccd1;
+    }
+
+        .popover.danger > .arrow {
+            border-top-color: #ebccd1;
+        }
+
+        .popover.danger > .popover-title {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+</style>
 
 <h2>@ViewBag.Title.</h2>
 
@@ -32,7 +104,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "password", @data_toggle = "popover", @title = "Password Strength", @data_content = "Enter Password..." })
         </div>
     </div>
     <div class="form-group">
@@ -50,4 +122,79 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var required = "Minimum 6 characters and must contain at least one upper case letter, one lower case letter and (one number AND one special char).";
+            //minimum 6 characters
+            //var bad = /(?=.{6,}).*/;
+            //Alpha Numeric plus minimum 6
+            //var good = /^(?=\S*?[a-z])(?=\S*?[0-9])\S{6,}$/;
+            //Must contain at least one upper case letter, one lower case letter and (one number OR one special char).
+            //var better = /^(?=\S*?[A-Z])(?=\S*?[a-z])((?=\S*?[0-9])|(?=\S*?[^\w\*]))\S{6,}$/;
+
+            //Must contain at least one upper case letter, one lower case letter and (one number AND one special char).
+            var best = /^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=\S*?[^\w\*])\S{6,}$/;
+
+            $('#password').on('keyup', function () {
+                var password = $(this);
+                var pass = password.val();
+                var passLabel = $('[for="password"]');
+                var strength = 'Weak';
+                var pclass = 'danger';
+                if (best.test(pass) == true) {
+                    strength = 'Very Strong';
+                    pclass = 'success';
+                } else {
+                    strength = required;
+                    pclass = 'warning';
+                }
+                //} else if (better.test(pass) == true) {
+                //    strength = 'Strong';
+                //    pclass = 'warning';
+                //} else if (good.test(pass) == true) {
+                //    strength = 'Almost Strong';
+                //    pclass = 'warning';
+                //} else if (bad.test(pass) == true) {
+                //    strength = 'Weak';
+                //} else {
+                //    strength = 'Very Weak';
+                //}
+
+                var popover = password.attr('data-content', strength).data('bs.popover');
+                popover.setContent();
+                popover.$tip.addClass(popover.options.placement).removeClass('danger success info warning primary').addClass(pclass);
+
+            });
+
+            $('input[data-toggle="popover"]').popover({
+                placement: 'top',
+                trigger: 'focus'
+            });
+
+            $('#PhoneNumber').keyup(function () {
+                var phoneNumber = $(this);
+                var pattern = /^[5]\d{7}$/;
+                var passLabel = "Phone Number";
+                var requiredPhone = "Phone number must starts with 5 with a total of 8 digits."
+                var strength = 'Weak';
+                var pclass = 'danger';
+                var number = $(this).val();
+                if (pattern.test(number) == true) {
+                    strength = 'Good';
+                    pclass = 'success';
+                }
+                else {
+                    strength = requiredPhone;
+                    pclass = 'warning';
+                    $('.register').su
+                }
+
+                var popover = phoneNumber.attr('data-content', strength).data('bs.popover');
+                popover.setContent();
+                popover.$tip.addClass(popover.options.placement).removeClass('danger success info warning primary').addClass(pclass);
+            });
+
+        })
+    </script>
 }
