@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width"/>
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Admincss")
+
     @*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>*@
     <style type="text/css">
@@ -73,6 +75,7 @@
                     display: block;
                     text-decoration: none;
                     color: #999999;
+                    margin-left: -10px;
                 }
 
                     .sidebar-nav li a:hover {
@@ -116,7 +119,7 @@
                 }
 
             #sidebar-wrapper {
-                width: 150px;
+                width: 157px;
             }
 
             #wrapper.toggled #sidebar-wrapper {
@@ -142,7 +145,7 @@
         }
 
         .container-fluid {
-            background-color:#ffffff;
+            background-color: #ffffff;
         }
     </style>
 </head>
@@ -150,17 +153,17 @@
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
+            <ul class="sidebar-nav nav">
                 <li class="sidebar-brand">
                     <a href="@Url.Action("Index","Home")">
                         LeEvent
                     </a>
                 </li>
                 <li>
-                    <a href="#"><span class="glyphicon glyphicon-home"> Home</span></a>
+                    <a href="#"><span class="fa-2x glyphicon glyphicon-home"> Home</span></a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-users"> Events</span></a>
+                    <a href="#"><span class="fa fa-2x fa-users"> Events</span></a>
                 </li>
                 <li>
                     <a href="#">About</a>
