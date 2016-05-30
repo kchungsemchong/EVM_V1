@@ -103,7 +103,7 @@
 
         #menu-toggle {
             margin-top: -60px;
-            margin-left: 11px;
+            margin-left: 1px;
         }
 
         @@media(min-width:768px) {
@@ -137,8 +137,12 @@
 
             #menu-toggle {
                 margin-top: -60px;
-                margin-left: 11px;
+                margin-left: 1px;
             }
+        }
+
+        .container-fluid {
+            background-color:#ffffff;
         }
     </style>
 </head>
@@ -173,11 +177,11 @@
         <!-- /#sidebar-wrapper -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
-            <a href="#menu-toggle" class="btn btn-info" id="menu-toggle">Hide Menu</a>
+            <a href="#menu-toggle" class="btn btn-info glyphicon glyphicon-chevron-left" id="menu-toggle"></a>
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 container-fluid">
 
                         @*<h1>Simple Sidebar</h1>
                             <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
@@ -205,10 +209,10 @@
                 $("#wrapper").toggleClass("toggled");
                 if ($('#wrapper').hasClass('toggled')) {
 
-                    $('#menu-toggle').text('Show Menu').removeClass().fadeIn(500).addClass('btn btn-warning');
+                    $('#menu-toggle').removeClass().fadeIn(500).addClass('btn btn-warning glyphicon glyphicon-chevron-right');
                 }
                 else {
-                    $('#menu-toggle').text('Hide Menu').removeClass().fadeIn(500).addClass('btn btn-info');
+                    $('#menu-toggle').removeClass().fadeIn(500).addClass('btn btn-info glyphicon glyphicon-chevron-left');
                 }
             });
 
