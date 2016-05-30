@@ -292,6 +292,9 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jack-u.jpg" />
+    <Content Include="Content\jAlert-v3.css" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\light-bootstrap-dashboard.css" />
     <Content Include="Content\sidebar-5.jpg" />
     <Content Include="favicon.ico" />
@@ -315,9 +318,15 @@
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jAlert-functions.js" />
+    <Content Include="Scripts\jAlert-functions.min.js" />
+    <Content Include="Scripts\jAlert-v3.js" />
+    <Content Include="Scripts\jAlert-v3.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -385,6 +394,7 @@
     <Content Include="Views\Outlets\Create.cshtml" />
     <Content Include="Views\Outlets\Details.cshtml" />
     <Content Include="Views\Home\Error404.cshtml" />
+    <Content Include="Views\Events\LocationSelection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

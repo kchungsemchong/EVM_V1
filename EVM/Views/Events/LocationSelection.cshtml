@@ -1,0 +1,131 @@
+﻿@model EVM.Models.Location
+    @{
+        ViewBag.Title = "Location Selection";
+        Layout = "~/Views/Shared/AdminLayout.cshtml";
+    }
+
+    <style type="text/css">
+        .location {
+            display: none;
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">Location Section</h4>
+                    <p class="category">Select</p>
+                </div>
+                <div class="content">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+                            <h4>Enter Details</h4>
+                            <hr/>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-md-5">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "locationName", @name = "term" } })
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <a href="@Url.Action("Index","Admin")" class="btn btn-info col-md-offset-3" id="next">Next to Sponsor Section</a>
+            </div>
+        </div>
+
+        <div class="col-md-4 location">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">List of Location</h4>
+                    <p class="category"></p>
+                </div>
+                <div class="content">
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $("#locationName").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: '@Url.Action("GetLocation","Events")',
+                            type: "GET",
+                            dataType: "json",
+                            data: {
+                                Name: $('#locationName').val()
+                            },
+                            success: function (data) {
+
+                                response($.map(data, function (value, index) {
+                                    //alert(index);
+                                    return {
+                                        label: value.Name,
+                                        value: value.Name,
+                                        id: value.LocationId
+                                    }
+                                })
+                                );
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                //debugger;
+                                alert(textStatus);
+                            }
+                        });
+                    }
+    ,
+                    minLength: 1,
+                    select: function (event, ui) {
+                        // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+                        var Id = ui.item.id;
+                        var Name = ui.item.value;
+                        $('.location').fadeIn(500);
+                        $('#next').fadeIn(500);
+                        $.ajax({
+                            url: '/Events/LocationList/',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: { id: Id },
+                            success: function (data) {
+                                var result = data.msg;
+                                if (result == true) {
+                                    $('.table').find('.appended').remove();
+                                }
+                                $(data.eventFinalList).each(function (index, item) {
+
+                                    if (result == true) {
+
+                                        $('.table').append('<tr class="appended"><td>' + item.Name + '</td></tr>');
+                                    }
+
+                                });
+                                if (data.msg == false) {
+
+                                    alert("You have already chosen this Location.");
+
+                                }
+                            }
+                        });
+
+                        return true;
+
+                    }
+                });
+            })
+        </script>
+    }

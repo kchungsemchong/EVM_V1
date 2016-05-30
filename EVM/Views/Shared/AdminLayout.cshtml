@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width"/>
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/Admincss")
+    @Styles.Render("~/Content/jQueryUI")
+    @Styles.Render("~/Content/JAlert")
 </head>
 <body>
     <div class="wrapper">
@@ -152,6 +154,8 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/AdminJS")
+    @Scripts.Render("~/bundles/jQueryUI")
+    @Scripts.Render("~/bundles/JAlert")
     @RenderSection("scripts", required: false)
 </body>
 </html>
