@@ -402,9 +402,11 @@
     <Content Include="Views\Outlets\Details.cshtml" />
     <Content Include="Views\Home\Error404.cshtml" />
     <Content Include="Views\Events\LocationSelection.cshtml" />
+    <Content Include="Views\Events\SponsorSelection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Sponsors\" />
     <Folder Include="Views\Tariffs\" />
   </ItemGroup>
   <ItemGroup>

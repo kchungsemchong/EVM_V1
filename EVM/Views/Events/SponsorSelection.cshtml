@@ -1,11 +1,11 @@
-﻿@model EVM.Models.Location
+﻿@model EVM.Models.Sponsor
 @{
-    ViewBag.Title = "Location Selection";
+    ViewBag.Title = "Sponsor Selection";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
 }
 
 <style type="text/css">
-    .location {
+    .sponsor {
         display: none;
     }
 </style>
@@ -13,7 +13,7 @@
     <div class="col-md-7">
         <div class="card">
             <div class="header">
-                <h4 class="title">Location Section</h4>
+                <h4 class="title">Sponsor Section</h4>
                 <p class="category">Select</p>
             </div>
             <div class="content">
@@ -27,21 +27,21 @@
                         <div class="form-group">
                             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
                             <div class="col-md-5">
-                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "locationName", @name = "term" } })
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "sponsorName", @name = "term" } })
                                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                 }
             </div>
-            <a href="@Url.Action("SponsorSelection","Events")" class="btn btn-info col-md-offset-3" id="next">Next to Sponsor Section</a>
+            <a href="@Url.Action("EventCreation","Events")" class="btn btn-success col-md-offset-3" id="next">Save Event</a>
         </div>
     </div>
 
-    <div class="col-md-4 location">
+    <div class="col-md-4 sponsor">
         <div class="card">
             <div class="header">
-                <h4 class="title">List of Location</h4>
+                <h4 class="title">List of Sponsors</h4>
                 <p class="category"></p>
             </div>
             <div class="content">
@@ -61,14 +61,14 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $("#locationName").autocomplete({
+            $("#sponsorName").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '@Url.Action("GetLocation","Events")',
+                        url: '@Url.Action("GetSponsor","Events")',
                         type: "GET",
                         dataType: "json",
                         data: {
-                            Name: $('#locationName').val()
+                            Name: $('#sponsorName').val()
                         },
                         success: function (data) {
 
@@ -77,7 +77,7 @@
                                 return {
                                     label: value.Name,
                                     value: value.Name,
-                                    id: value.LocationId
+                                    id: value.SponsorId
                                 }
                             })
                             );
@@ -94,10 +94,10 @@
                     // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
                     var Id = ui.item.id;
                     var Name = ui.item.value;
-                    $('.location').fadeIn(500);
+                    $('.sponsor').fadeIn(500);
                     $('#next').fadeIn(500);
                     $.ajax({
-                        url: '/Events/LocationList/',
+                        url: '/Events/SponsorList/',
                         type: 'POST',
                         dataType: 'json',
                         data: { id: Id },
@@ -106,7 +106,7 @@
                             if (result == true) {
                                 $('.table').find('.appended').remove();
                             }
-                            $(data.eventFinalLocation).each(function (index, item) {
+                            $(data.FinalSponsorListForEvent).each(function (index, item) {
 
                                 if (result == true) {
 
@@ -116,7 +116,7 @@
                             });
                             if (data.msg == false) {
 
-                                alert("You have already chosen this Location.");
+                                alert("You have already chosen this Sponsor.");
 
                             }
                         }
