@@ -75,11 +75,11 @@ namespace EVM.Controllers
             {
                 if (User.IsInRole("Admin"))
                 {
-                    Event newEvent = null;
-                    newEvent.LocationId = RetrieveLocationId();
-                    if (newEvent.LocationId == 0)
-                        return RedirectToAction("Create", "Locations");
-                    RedirectToAction("");
+                    //Event newEvent = null;
+                    //newEvent.LocationId = RetrieveLocationId();
+                    //if (newEvent.LocationId == 0)
+                    //    return RedirectToAction("Create", "Locations");
+                    //RedirectToAction("");
 
                     return View();
                 }
@@ -95,7 +95,7 @@ namespace EVM.Controllers
         // POST: Events/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Event item)
+        public ActionResult Create(Event item, Nullable<DateTime> EventDate)
         {
             try
             {
@@ -103,11 +103,21 @@ namespace EVM.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        var newRecord = _repo.Create(item);
-                        if (newRecord.EventId < 1)
-                            return RedirectToAction("Error404", "Home");
+                        //var newRecord = _repo.Create(item);
+                        //if (newRecord.EventId < 1)
+                        //    return RedirectToAction("Error404", "Home");
 
-                        return RedirectToAction("Index", "Locations");
+                        var NewEvent = new Event()
+                        {
+                            Name = item.Name,
+                            Description = item.Description,
+                            EventDate = EventDate,
+                            DtAdded = DateTime.UtcNow,
+                            Status = "Active"
+                        };
+                        Session["Event"] = NewEvent;
+
+                        return RedirectToAction("ArtistSelection", "Events");
                     }
                 }
 
@@ -159,7 +169,7 @@ namespace EVM.Controllers
                             if (updatedRecord.EventId < 1)
                                 return RedirectToAction("Error404", "Home");
 
-                            return RedirectToAction("Index", "Locations");
+                            return RedirectToAction("Index", "Events");
                         }
                     }
                 }
@@ -252,7 +262,11 @@ namespace EVM.Controllers
 
         public ActionResult LocationSelection()
         {
-            return View();
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public JsonResult GetLocation(string Name)
@@ -331,6 +345,94 @@ namespace EVM.Controllers
                 return 0;
 
             return location.LocationId;
+        }
+
+        public ActionResult SponsorSelection()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+        public JsonResult GetSponsor(string Name)
+        {
+            var record = db.Sponsors.Where(a => a.Name.StartsWith(Name) && a.Status == "Active").ToList();
+            return Json(record, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult SponsorList(int id)
+        {
+            var SponsorListForEvent = Session["SponsorListForEvent"] as List<Sponsor>;
+            List<Sponsor> NewSponsorList = new List<Sponsor>();
+            bool msg = false;
+            if (SponsorListForEvent == null)
+            {
+                var sponsor = new Sponsor()
+                {
+                    SponsorId = id,
+                    Name = db.Sponsors.Where(a => a.SponsorId == id).FirstOrDefault().Name
+                };
+                NewSponsorList.Add(sponsor);
+                Session["SponsorListForEvent"] = NewSponsorList;
+                msg = true;
+            }
+            else
+            {
+                bool isDuplicate = true;
+
+                isDuplicate = checkDuplicateSponsor(id);
+                if (isDuplicate == false)
+                {
+                    var sponsor = new Sponsor()
+                    {
+                        SponsorId = id,
+                        Name = db.Sponsors.Where(a => a.SponsorId == id).FirstOrDefault().Name
+                    };
+                    SponsorListForEvent.Add(sponsor);
+                    Session["SponsorListForEvent"] = SponsorListForEvent;
+                    msg = true;
+                }
+                else
+                {
+                    msg = false;
+                }
+            }
+
+            var FinalSponsorListForEvent = Session["SponsorListForEvent"] as List<Sponsor>;
+
+            return Json(new { FinalSponsorListForEvent, msg }, JsonRequestBehavior.AllowGet);
+        }
+
+        public bool checkDuplicateSponsor(int id)
+        {
+            var count = 0;
+            var SponsorList = Session["SponsorListForEvent"] as List<Sponsor>;
+            foreach (var item in SponsorList)
+            {
+                if (item.SponsorId == id)
+                {
+                    count += 1;
+                }
+            }
+
+            if (count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public ActionResult EventCreation()
+        {
+            var EventDetails = Session["Event"] as Event;
+            var ArtistListForEvent = Session["ArtistListForEvent"] as List<Artist>;
+            var LocationListForEvent = Session["EventLocation"] as List<Location>;
+            var SponsorListForEvent = Session["SponsorListForEvent"] as List<Sponsor>;
+
+            return RedirectToAction("Details", "Events", new { id = EventDetails.EventId });
         }
     }
 }
