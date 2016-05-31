@@ -43,10 +43,12 @@ namespace EVM.App_Start
             // container.RegisterType<IProductRepository, ProductRepository>();
             container.RegisterType<AccountController>(new InjectionConstructor());
             container.RegisterType<ManageController>(new InjectionConstructor());
+            container.RegisterType<IArtistEventRepo, ArtistEventRepo>();
             container.RegisterType<IArtistRepo, ArtistRepo>();
             container.RegisterType<IEventRepo, EventRepo>();
             container.RegisterType<ILocationRepo, LocationRepo>();
             container.RegisterType<IOutletRepo, OutletRepo>();
+            container.RegisterType<ISponsorEventRepo, SponsorEventRepo>();
             container.RegisterType<ISponsorRepo, SponsorRepo>();
             container.RegisterType<ITariffRepo, TariffRepo>();
         }
