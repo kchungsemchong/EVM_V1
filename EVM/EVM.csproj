@@ -193,13 +193,17 @@
     <Compile Include="BusinessLogic\IEventRepo.cs" />
     <Compile Include="BusinessLogic\ILocationRepo.cs" />
     <Compile Include="BusinessLogic\IOutletRepo.cs" />
+    <Compile Include="BusinessLogic\ISponsorEventRepo.cs" />
     <Compile Include="BusinessLogic\ISponsorRepo.cs" />
     <Compile Include="BusinessLogic\ITariffRepo.cs" />
     <Compile Include="BusinessLogic\LocationRepo.cs" />
     <Compile Include="BusinessLogic\OutletRepo.cs" />
+    <Compile Include="BusinessLogic\SponsorEventRepo.cs" />
+    <Compile Include="BusinessLogic\SponsorEventsController.cs" />
     <Compile Include="BusinessLogic\SponsorRepo.cs" />
     <Compile Include="BusinessLogic\TariffRepo.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArtistEventsController.cs" />
     <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
@@ -405,6 +409,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ArtistEvents\" />
+    <Folder Include="Views\SponsorEvents\" />
     <Folder Include="Views\Tariffs\" />
   </ItemGroup>
   <ItemGroup>
