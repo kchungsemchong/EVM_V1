@@ -1,8 +1,8 @@
-﻿using System;
+﻿using EVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using EVM.Models;
 
 namespace EVM.BusinessLogic
 {
@@ -36,6 +36,7 @@ namespace EVM.BusinessLogic
             if (duplicateExists == true)
                 return item;
 
+            item.Status = "Active";
             db.Outlets.Add(item);
             db.SaveChanges();
 

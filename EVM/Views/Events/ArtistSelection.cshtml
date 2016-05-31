@@ -1,0 +1,131 @@
+﻿@model EVM.Models.Artist
+@{
+    ViewBag.Title = "Artist Selection";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<style type="text/css">
+    .artist {
+        display: none;
+    }
+</style>
+<div class="row">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Artist Section</h4>
+                <p class="category">Select</p>
+            </div>
+            <div class="content">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <h4>Enter Details</h4>
+                        <hr/>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "ArtistName", @name = "term" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <a href="@Url.Action("LocationSelection","Events")" class="btn btn-info col-md-offset-3" id="next">Next to Location Section</a>
+        </div>
+    </div>
+
+    <div class="col-md-4 artist">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">List of Artist</h4>
+                <p class="category"></p>
+            </div>
+            <div class="content">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th></th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#ArtistName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '@Url.Action("GetArtist","Events")',
+                        type: "GET",
+                        dataType: "json",
+                        data: {
+                            Name: $('#ArtistName').val()
+                        },
+                        success: function (data) {
+
+                            response($.map(data, function (value, index) {
+                                //alert(index);
+                                return {
+                                    label: value.Name,
+                                    value: value.Name,
+                                    id: value.ArtistId
+                                }
+                            })
+                            );
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            //debugger;
+                            alert(textStatus);
+                        }
+                    });
+                }
+,
+                minLength: 1,
+                select: function (event, ui) {
+                    // Do something with  "ui.item.Id" or "ui.item.Name" or any of the other properties you selected to return from the action
+                    var Id = ui.item.id;
+                    var Name = ui.item.value;
+                    $('.artist').fadeIn(500);
+                    $('#next').fadeIn(500);
+                    $.ajax({
+                        url: '/Events/ArtistList/',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { id: Id },
+                        success: function (data) {
+                            var result = data.msg;
+                            if (result == true) {
+                                $('.table').find('.appended').remove();
+                            }
+                            $(data.eventFinalList).each(function (index, item) {
+
+                                if (result == true) {
+
+                                    $('.table').append('<tr class="appended"><td>' + item.Name + '</td></tr>');
+                                }
+
+                            });
+                            if (data.msg == false) {
+
+                                alert("You have already chosen this artist.");
+
+                            }
+                        }
+                    });
+
+                    return true;
+
+                }
+            });
+        })
+    </script>
+}
