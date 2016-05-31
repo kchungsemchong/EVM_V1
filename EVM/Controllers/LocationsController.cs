@@ -100,6 +100,8 @@ namespace EVM.Controllers
                         if (newRecord.LocationId < 1)
                             return RedirectToAction("Error404", "Home");
 
+                        Session["LocationEvent"] = newRecord;
+
                         return RedirectToAction("Index", "Locations");
                     }
                 }

@@ -14,6 +14,7 @@ namespace EVM.Models
         public int LocationId { get; set; }
         public string Name { get; set; }
         [Url]
+        [Display(Name = "Google Map")]
         public string GoogleMapsLink { get; set; }
         public string Status { get; set; }
         public IEnumerable<Event> Events { get; set; }

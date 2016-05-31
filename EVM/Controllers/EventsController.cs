@@ -1,11 +1,11 @@
-﻿using EVM.BusinessLogic;
-using EVM.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using EVM.BusinessLogic;
+using EVM.Models;
 
 namespace EVM.Controllers
 {
@@ -75,6 +75,12 @@ namespace EVM.Controllers
             {
                 if (User.IsInRole("Admin"))
                 {
+                    Event newEvent = null;
+                    newEvent.LocationId = RetrieveLocationId();
+                    if (newEvent.LocationId == 0)
+                        return RedirectToAction("Create", "Locations");
+                    RedirectToAction("");
+
                     return View();
                 }
 
@@ -312,6 +318,15 @@ namespace EVM.Controllers
                 return true;
             }
             return false;
+        }
+
+        public int RetrieveLocationId()
+        {
+            var location = Session["LocationEvent"] as Location;
+            if (location.LocationId < 1)
+                return 0;
+
+            return location.LocationId;
         }
     }
 }
