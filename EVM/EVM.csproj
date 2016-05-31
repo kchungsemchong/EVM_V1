@@ -277,6 +277,14 @@
     <Compile Include="Migrations\201605300651019_Add ArtistEvent.Designer.cs">
       <DependentUpon>201605300651019_Add ArtistEvent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605311922409_Add Photo.cs" />
+    <Compile Include="Migrations\201605311922409_Add Photo.Designer.cs">
+      <DependentUpon>201605311922409_Add Photo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605311929388_Add EventId to Table Photo.cs" />
+    <Compile Include="Migrations\201605311929388_Add EventId to Table Photo.Designer.cs">
+      <DependentUpon>201605311929388_Add EventId to Table Photo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -286,6 +294,7 @@
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Outlet.cs" />
+    <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Sponsor.cs" />
     <Compile Include="Models\SponsorEvent.cs" />
     <Compile Include="Models\Tariff.cs" />
@@ -408,6 +417,7 @@
     <Content Include="Views\Events\LocationSelection.cshtml" />
     <Content Include="Views\Events\SponsorSelection.cshtml" />
     <Content Include="Views\Home\Events.cshtml" />
+    <Content Include="Views\Events\Photo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -465,6 +475,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605300651019_Add ArtistEvent.resx">
       <DependentUpon>201605300651019_Add ArtistEvent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605311922409_Add Photo.resx">
+      <DependentUpon>201605311922409_Add Photo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605311929388_Add EventId to Table Photo.resx">
+      <DependentUpon>201605311929388_Add EventId to Table Photo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

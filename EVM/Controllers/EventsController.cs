@@ -12,11 +12,18 @@ namespace EVM.Controllers
     public class EventsController : Controller
     {
         private readonly IEventRepo _repo;
+        private readonly IArtistEventRepo _ArtistEventRepo;
+        private readonly ISponsorEventRepo _SponsorEventRepo;
+        private readonly ILocationRepo _LocationRepo;
+
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public EventsController(IEventRepo repository)
+        public EventsController(IEventRepo EventRepository, IArtistEventRepo ArtistEventRepo, ISponsorEventRepo SponsorEventRepo, ILocationRepo LocationRepo)
         {
-            _repo = repository;
+            _repo = EventRepository;
+            _ArtistEventRepo = ArtistEventRepo;
+            _SponsorEventRepo = SponsorEventRepo;
+            _LocationRepo = LocationRepo;
         }
 
         // GET: Events
@@ -116,6 +123,19 @@ namespace EVM.Controllers
                             Status = "Active"
                         };
                         Session["Event"] = NewEvent;
+
+                        //var EventWallpaper = photo;
+
+                        //var myPhoto = new Photo();
+                        //myPhoto.ContentType = EventWallpaper.ContentType;
+                        //myPhoto.Content = new byte[EventWallpaper.ContentLength];
+                        //myPhoto.EventId = NewEvent.EventId;
+
+                        //EventWallpaper.InputStream.Read(myPhoto.Content, 0, EventWallpaper.ContentLength);
+                        //db.Photos.Add(myPhoto);
+                        //db.SaveChanges();
+
+                        //Session["EventWallpaper"] = photo;
 
                         return RedirectToAction("ArtistSelection", "Events");
                     }
@@ -278,8 +298,8 @@ namespace EVM.Controllers
         [HttpPost]
         public JsonResult LocationList(int id)
         {
-            var eventLocation = Session["EventLocation"] as List<Location>;
-            List<Location> NewLocationList = new List<Location>();
+            var eventLocation = Session["EventLocation"] as Location;
+            Location NewLocation = new Location();
             bool msg = false;
             if (eventLocation == null)
             {
@@ -288,8 +308,9 @@ namespace EVM.Controllers
                     LocationId = id,
                     Name = db.Locations.Where(a => a.LocationId == id).FirstOrDefault().Name
                 };
-                NewLocationList.Add(location);
-                Session["EventLocation"] = NewLocationList;
+
+                //NewLocationList.Add(location);
+                Session["EventLocation"] = location;
                 msg = true;
             }
             else
@@ -304,8 +325,9 @@ namespace EVM.Controllers
                         LocationId = id,
                         Name = db.Locations.Where(a => a.LocationId == id).FirstOrDefault().Name
                     };
-                    eventLocation.Add(location);
-                    Session["EventLocation"] = eventLocation;
+
+                    //eventLocation.Add(location);
+                    Session["EventLocation"] = location;
                     msg = true;
                 }
                 else
@@ -314,24 +336,26 @@ namespace EVM.Controllers
                 }
             }
 
-            var eventFinalLocation = Session["EventLocation"] as List<Location>;
+            var eventFinalLocation = Session["EventLocation"] as Location;
 
             return Json(new { eventFinalLocation, msg }, JsonRequestBehavior.AllowGet);
         }
 
         public bool checkDuplicateLocation(int id)
         {
-            var count = 0;
-            var eventLocation = Session["EventLocation"] as List<Location>;
-            foreach (var item in eventLocation)
-            {
-                if (item.LocationId == id)
-                {
-                    count += 1;
-                }
-            }
+            //var count = 0;
+            var eventLocation = Session["EventLocation"] as Location;
+            var record = db.Locations.Where(l => l.LocationId == id).ToList();
 
-            if (count > 0)
+            //foreach (var item in eventLocation)
+            //{
+            //if (item.LocationId == id)
+            //{
+            //    count += 1;
+            //}
+            //}
+
+            if (record.Count() > 0)
             {
                 return true;
             }
@@ -425,14 +449,67 @@ namespace EVM.Controllers
             return false;
         }
 
-        public ActionResult EventCreation()
+        public ActionResult Photo()
         {
-            var EventDetails = Session["Event"] as Event;
-            var ArtistListForEvent = Session["ArtistListForEvent"] as List<Artist>;
-            var LocationListForEvent = Session["EventLocation"] as List<Location>;
-            var SponsorListForEvent = Session["SponsorListForEvent"] as List<Sponsor>;
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
+        }
 
-            return RedirectToAction("Details", "Events", new { id = EventDetails.EventId });
+        [HttpPost]
+        public ActionResult Photo(HttpPostedFileBase photo)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                var EventDetails = Session["Event"] as Event;
+                var ArtistListForEvent = Session["ArtistListForEvent"] as List<Artist>;
+                var EventLocation = Session["EventLocation"] as Location;
+                var SponsorListForEvent = Session["SponsorListForEvent"] as List<Sponsor>;
+
+                //var EventWallpaper = Session["EventWallpaper"] as HttpPostedFileBase;
+
+                if (EventDetails == null || EventLocation == null || SponsorListForEvent == null || ArtistListForEvent == null)
+                {
+                    return RedirectToAction("Error404", "Home");
+                }
+
+                var NewEvent = new Event()
+                {
+                    Description = EventDetails.Description,
+                    EventDate = EventDetails.EventDate,
+                    Name = EventDetails.Name,
+                    LocationId = EventLocation.LocationId,
+                    DtAdded = DateTime.UtcNow,
+                    Status = "Active"
+                };
+                db.Events.Add(NewEvent);
+                db.SaveChanges();
+
+                var myPhoto = new Photo();
+                myPhoto.ContentType = photo.ContentType;
+                myPhoto.Content = new byte[photo.ContentLength];
+                myPhoto.EventId = NewEvent.EventId;
+                photo.InputStream.Read(myPhoto.Content, 0, photo.ContentLength);
+                db.Photos.Add(myPhoto);
+                db.SaveChanges();
+
+                var newArtistList = _ArtistEventRepo.SaveArtistInEvent(ArtistListForEvent, NewEvent.EventId);
+                if (newArtistList.Count < 0)
+                {
+                    return RedirectToAction("Error404", "Home");
+                }
+
+                var newSponsorList = _SponsorEventRepo.SaveSponsorInEvent(SponsorListForEvent, NewEvent.EventId);
+                if (newSponsorList.Count() < 0)
+                {
+                    return RedirectToAction("Error404", "Home");
+                }
+
+                return RedirectToAction("Details", "Events", new { id = NewEvent.EventId });
+            }
+            return RedirectToAction("Login", "Account");
         }
     }
 }
