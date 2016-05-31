@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EVM.BusinessLogic;
+using EVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using EVM.BusinessLogic;
-using EVM.Models;
 
 namespace EVM.Controllers
 {
@@ -174,7 +174,11 @@ namespace EVM.Controllers
 
         public ActionResult ArtistSelection()
         {
-            return View();
+            if (User.IsInRole("Admin"))
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         public JsonResult GetArtist(string Name)
@@ -186,18 +190,18 @@ namespace EVM.Controllers
         [HttpPost]
         public JsonResult ArtistList(int id)
         {
-            var eventArtist = Session["Event"] as List<Artist>;
-            List<Artist> artistList = new List<Artist>();
+            var ArtistListForEvent = Session["ArtistListForEvent"] as List<Artist>;
+            List<Artist> NewArtistList = new List<Artist>();
             bool msg = false;
-            if (eventArtist == null)
+            if (ArtistListForEvent == null)
             {
                 var artist = new Artist()
                     {
                         ArtistId = id,
                         Name = db.Artists.Where(a => a.ArtistId == id).FirstOrDefault().Name
                     };
-                artistList.Add(artist);
-                Session["Event"] = artistList;
+                NewArtistList.Add(artist);
+                Session["ArtistListForEvent"] = NewArtistList;
                 msg = true;
             }
             else
@@ -212,8 +216,8 @@ namespace EVM.Controllers
                         ArtistId = id,
                         Name = db.Artists.Where(a => a.ArtistId == id).FirstOrDefault().Name
                     };
-                    eventArtist.Add(artist);
-                    Session["Event"] = eventArtist;
+                    ArtistListForEvent.Add(artist);
+                    Session["ArtistListForEvent"] = ArtistListForEvent;
                     msg = true;
                 }
                 else
@@ -222,16 +226,16 @@ namespace EVM.Controllers
                 }
             }
 
-            var eventFinalList = Session["Event"] as List<Artist>;
+            var FinalArtistListForEvent = Session["ArtistListForEvent"] as List<Artist>;
 
-            return Json(new { eventFinalList, msg }, JsonRequestBehavior.AllowGet);
+            return Json(new { FinalArtistListForEvent, msg }, JsonRequestBehavior.AllowGet);
         }
 
         public bool checkDuplicateArtist(int id)
         {
             var count = 0;
-            var eventArtist = Session["Event"] as List<Artist>;
-            foreach (var item in eventArtist)
+            var ArtistListForEvent = Session["ArtistListForEvent"] as List<Artist>;
+            foreach (var item in ArtistListForEvent)
             {
                 if (item.ArtistId == id)
                 {
@@ -260,8 +264,8 @@ namespace EVM.Controllers
         [HttpPost]
         public JsonResult LocationList(int id)
         {
-            var eventLocation = Session["Location"] as List<Location>;
-            List<Location> LocationList = new List<Location>();
+            var eventLocation = Session["EventLocation"] as List<Location>;
+            List<Location> NewLocationList = new List<Location>();
             bool msg = false;
             if (eventLocation == null)
             {
@@ -270,8 +274,8 @@ namespace EVM.Controllers
                     LocationId = id,
                     Name = db.Locations.Where(a => a.LocationId == id).FirstOrDefault().Name
                 };
-                LocationList.Add(location);
-                Session["Location"] = LocationList;
+                NewLocationList.Add(location);
+                Session["EventLocation"] = NewLocationList;
                 msg = true;
             }
             else
@@ -287,7 +291,7 @@ namespace EVM.Controllers
                         Name = db.Locations.Where(a => a.LocationId == id).FirstOrDefault().Name
                     };
                     eventLocation.Add(location);
-                    Session["Location"] = eventLocation;
+                    Session["EventLocation"] = eventLocation;
                     msg = true;
                 }
                 else
@@ -296,15 +300,15 @@ namespace EVM.Controllers
                 }
             }
 
-            var eventFinalList = Session["Location"] as List<Location>;
+            var eventFinalLocation = Session["EventLocation"] as List<Location>;
 
-            return Json(new { eventFinalList, msg }, JsonRequestBehavior.AllowGet);
+            return Json(new { eventFinalLocation, msg }, JsonRequestBehavior.AllowGet);
         }
 
         public bool checkDuplicateLocation(int id)
         {
             var count = 0;
-            var eventLocation = Session["Location"] as List<Location>;
+            var eventLocation = Session["EventLocation"] as List<Location>;
             foreach (var item in eventLocation)
             {
                 if (item.LocationId == id)
