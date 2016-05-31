@@ -1,8 +1,4 @@
-﻿using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -12,6 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -76,16 +76,6 @@ namespace EVM.Controllers
             {
                 return View(model);
             }
-
-            //var user = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
-            //string hashedNewPassword = UserManager.PasswordHasher.HashPassword(model.Password);
-            //user.PasswordHash = hashedNewPassword;
-            //db.SaveChanges();
-
-            //string password = db.Users.Where(x => x.Email == model.Email)
-            //                         .Select(x => x.PasswordHash)
-            //                         .Single();
-            //bool passwordMatches = Crypto.VerifyHashedPassword(password, model.Password);
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -179,7 +169,7 @@ namespace EVM.Controllers
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        UserName = model.FirstName + "" + model.LastName,
+                        UserName = model.Email,
                         Email = model.Email,
                         Status = "Active"
                     };
