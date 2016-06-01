@@ -1,11 +1,11 @@
-﻿using EVM.BusinessLogic;
-using EVM.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using EVM.BusinessLogic;
+using EVM.Models;
 
 namespace EVM.Controllers
 {
@@ -100,7 +100,7 @@ namespace EVM.Controllers
                         if (newRecord.ArtistId < 1)
                             return RedirectToAction("Error404", "Home");
 
-                        return RedirectToAction("Index", "Locations");
+                        return RedirectToAction("Index", "Artists");
                     }
                 }
 
