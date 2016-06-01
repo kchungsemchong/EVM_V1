@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/Admincss")
+    @Styles.Render("~/Content/jQueryUI")
+    @Styles.Render("~/Content/JAlert")
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="black" data-image="/Content/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="@Url.Action("Index","Admin")" class="simple-text">
+                        Le Event
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li class="active">
+                        <a href="@Url.Action("Index","SuperAdmin")">
+                            <i class="fa fa-dashboard"></i>
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Register","Events")">
+                            <i class="fa fa-eye"></i>
+                            <p>Create new User</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index","SuperAdmin")">
+                            <i class="fa fa-users"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Welcome</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </div>
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="@Url.Action("Index","Admin")">
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    About Us
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        &copy; 2016 <a href="@Url.Action("Index","Admin")">Le Event</a>, never miss an event as from today.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/AdminJS")
+    @Scripts.Render("~/bundles/jQueryUI")
+    @Scripts.Render("~/bundles/JAlert")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
