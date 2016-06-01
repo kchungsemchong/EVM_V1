@@ -84,7 +84,9 @@ namespace EVM.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Admin");
+
+                //return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -201,7 +203,7 @@ namespace EVM.Controllers
         {
             try
             {
-                if (User.IsInRole("SuperAdmin"))
+                if (User.IsInRole("Super"))
                 {
                     var record = (from user in db.Users
                                   where user.Id == id
