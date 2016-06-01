@@ -321,6 +321,7 @@
     <Content Include="Content\jAlert-v3.css" />
     <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\kshmr-rukes.jpg" />
     <Content Include="Content\light-bootstrap-dashboard.css" />
     <Content Include="Content\sidebar-5.jpg" />
     <Content Include="favicon.ico" />
