@@ -1,9 +1,8 @@
-﻿using System;
+﻿using EVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EVM.Models;
+using System.Web;
 
 namespace EVM.BusinessLogic
 {
@@ -11,7 +10,7 @@ namespace EVM.BusinessLogic
     {
         IEnumerable<Sponsor> Retrieve();
         Sponsor Get(int id);
-        Sponsor Create(Sponsor item);
+        Sponsor Create(Sponsor item, HttpPostedFileBase photo);
         Sponsor Update(Sponsor item);
     }
 }

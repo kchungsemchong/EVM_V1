@@ -422,12 +422,15 @@
     <Content Include="Views\Events\SponsorSelection.cshtml" />
     <Content Include="Views\Home\Events.cshtml" />
     <Content Include="Views\Events\Photo.cshtml" />
+    <Content Include="Views\Sponsors\Index.cshtml" />
+    <Content Include="Views\Sponsors\Details.cshtml" />
+    <Content Include="Views\Sponsors\Create.cshtml" />
+    <Content Include="Views\Sponsors\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ArtistEvents\" />
     <Folder Include="Views\SponsorEvents\" />
-    <Folder Include="Views\Sponsors\" />
     <Folder Include="Views\Tariffs\" />
   </ItemGroup>
   <ItemGroup>

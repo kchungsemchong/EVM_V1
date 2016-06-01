@@ -1,8 +1,8 @@
-﻿using System;
+﻿using EVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using EVM.Models;
 
 namespace EVM.BusinessLogic
 {
@@ -27,7 +27,7 @@ namespace EVM.BusinessLogic
 
             return record;
         }
-        public Sponsor Create(Sponsor item)
+        public Sponsor Create(Sponsor item, HttpPostedFileBase photo)
         {
             bool duplicateExists = true;
             item.Name = helper.ConvertToTitleCase(item.Name);
@@ -35,10 +35,20 @@ namespace EVM.BusinessLogic
             if (duplicateExists == true)
                 return item;
 
-            db.Sponsors.Add(item);
+            var newSponsor = new Sponsor()
+            {
+                Name = item.Name,
+                DtAdded = DateTime.UtcNow,
+                Status = "Active",
+                ContentType = photo.ContentType,
+                Content = new byte[photo.ContentLength]
+            };
+            photo.InputStream.Read(newSponsor.Content, 0, photo.ContentLength);
+
+            db.Sponsors.Add(newSponsor);
             db.SaveChanges();
 
-            return item;
+            return newSponsor;
         }
         public Sponsor Update(Sponsor item)
         {
