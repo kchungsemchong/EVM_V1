@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EVM.BusinessLogic;
+using EVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using EVM.BusinessLogic;
-using EVM.Models;
 
 namespace EVM.Controllers
 {
@@ -88,7 +88,7 @@ namespace EVM.Controllers
         // POST: Sponsors/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Sponsor item)
+        public ActionResult Create(Sponsor item, HttpPostedFileBase photo)
         {
             try
             {
@@ -96,7 +96,7 @@ namespace EVM.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        var newRecord = _repo.Create(item);
+                        var newRecord = _repo.Create(item, photo);
                         if (newRecord.SponsorId < 1)
                             return RedirectToAction("Error404", "Home");
 
