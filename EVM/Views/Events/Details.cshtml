@@ -1,4 +1,4 @@
-﻿@model EVM.Models.Event
+﻿@model EVM.Models.EventDetailsViewModel
 @{
     ViewBag.Title = Model.Name + " Details";
     Layout = "~/Views/Shared/AdminLayout.cshtml";
@@ -28,11 +28,11 @@
                         @Html.DisplayFor(model => model.Description)
                     </dd>
                     <dt>
-                        @Html.DisplayNameFor(model => model.Location)
+                        @Html.DisplayNameFor(model => model.LocationName)
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.Location)
+                        @Html.DisplayFor(model => model.LocationName)
                     </dd>
                     <dt>
                         @Html.DisplayNameFor(model => model.EventDate)
@@ -55,13 +55,44 @@
                     <dd>
                         @Html.DisplayFor(model => model.Status)
                     </dd>
+                    <hr/>
+                    <dt>
+                        @Html.Label("Artist")
+                    </dt>
+                    <dd>
+                        @foreach (var item in ViewBag.Artist)
+                        {
+                            <li>@item.ArtistName</li>
+                        }
+                    </dd>
+                    <hr/>
+                    <dt>
+                        @Html.Label("Sponsor")
+                    </dt>
+                    <dd>
+                        @foreach (var item in ViewBag.Sponsor)
+                        {
+                            <li>@item.SponsorName</li>
+                        }
+                    </dd>
                 </dl>
                 <div class="footer">
                     <p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |
+                        @*@Html.ActionLink("Edit", "Edit", new { id = Model.EventId }) |*@
                         @Html.ActionLink("Back to List", "Index")
                     </p>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="header">
+                <h4 class="title"></h4>
+                <p class="category"></p>
+            </div>
+            <div class="content">
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.WallpaperContent)" class=" img-responsive"/>
             </div>
         </div>
     </div>
