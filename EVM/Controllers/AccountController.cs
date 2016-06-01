@@ -84,7 +84,11 @@ namespace EVM.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Index", "Admin");
+                    if (User.IsInRole("Admin"))
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+                    return RedirectToAction("Index", "SuperAdmin");
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -149,7 +153,11 @@ namespace EVM.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            if (User.IsInRole("Super"))
+            {
+                return View();
+            }
+            return RedirectToAction("Login", "Account");
         }
 
         //
@@ -201,20 +209,20 @@ namespace EVM.Controllers
         {
             try
             {
-                if (User.IsInRole("SuperAdmin"))
+                if (User.IsInRole("Super"))
                 {
                     var record = (from user in db.Users
                                   where user.Id == id
                                   select user).FirstOrDefault();
 
                     if (String.IsNullOrEmpty(record.Id))
-                        return RedirectToAction("RetrieveAdminAccounts", "Account");
+                        return RedirectToAction("Index", "SuperAdmin");
 
                     record.Status = "Deactivated";
                     db.SaveChanges();
                     Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
                     await sendEmailNotification;
-                    return RedirectToAction("RetrieveAdminAccounts", "Account");
+                    return RedirectToAction("Index", "SuperAdmin");
                 }
 
                 return RedirectToAction("Login", "Account");
