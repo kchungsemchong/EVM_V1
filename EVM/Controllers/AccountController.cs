@@ -1,8 +1,4 @@
-﻿using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -12,6 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -81,14 +81,19 @@ namespace EVM.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
+            if (result.ToString() == "Success" && User.IsInRole("Super"))
+                return RedirectToAction("Index", "Super");
+
             switch (result)
             {
                 case SignInStatus.Success:
                     if (User.IsInRole("Admin"))
                     {
-                        return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("Index", "Admin");
                     }
                     return RedirectToAction("Index", "SuperAdmin");
+
+                // return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -155,8 +160,8 @@ namespace EVM.Controllers
         {
             if (User.IsInRole("Super"))
             {
-                return View();
-            }
+            return View();
+        }
             return RedirectToAction("Login", "Account");
         }
 
@@ -164,7 +169,6 @@ namespace EVM.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             try
@@ -187,8 +191,9 @@ namespace EVM.Controllers
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                             ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                             if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
-                            Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
-                            await sendEmailNotification;
+
+                            //Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
+                            //await sendEmailNotification;
 
                             return RedirectToAction("Index", "Admin");
                         }
@@ -222,7 +227,7 @@ namespace EVM.Controllers
                     db.SaveChanges();
                     Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
                     await sendEmailNotification;
-                    return RedirectToAction("Index", "SuperAdmin");
+                    return RedirectToAction("RetrieveAdminAccounts", "Account");
                 }
 
                 return RedirectToAction("Login", "Account");
@@ -235,7 +240,9 @@ namespace EVM.Controllers
 
         public ActionResult RetrieveAdminAccounts()
         {
-            return View();
+            var records = db.Users.Where(x => x.Email != "patrick.leevent@sharklasers.com").ToList();
+
+            return View(records);
         }
 
         //

@@ -152,7 +152,7 @@ namespace EVM.Controllers
                             if (updatedRecord.ArtistId < 1)
                                 return RedirectToAction("Error404", "Home");
 
-                            return RedirectToAction("Index", "Locations");
+                            return RedirectToAction("Index", "Artists");
                         }
                     }
                 }

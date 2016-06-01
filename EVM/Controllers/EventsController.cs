@@ -1,11 +1,11 @@
-﻿using EVM.BusinessLogic;
-using EVM.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using EVM.BusinessLogic;
+using EVM.Models;
 
 namespace EVM.Controllers
 {
@@ -48,81 +48,81 @@ namespace EVM.Controllers
             }
         }
 
-        // GET: Events/Details/5
-        public ActionResult Details(int id)
-        {
-            try
-            {
-                if (User.IsInRole("Admin"))
-                {
-                    if (id > 0)
-                    {
-                        var record = _repo.Get(id);
-                        if (record.EventId < 1)
-                            return RedirectToAction("Error404", "Home");
+        //// GET: Events/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    try
+        //    {
+        //        if (User.IsInRole("Admin"))
+        //        {
+        //            if (id > 0)
+        //            {
+        //                var record = _repo.Get(id);
+        //                if (record.EventId < 1)
+        //                    return RedirectToAction("Error404", "Home");
 
-                        var newEvent = new EventDetailsViewModel()
-                        {
-                            EventId = record.EventId,
-                            Description = record.Description,
-                            EventDate = record.EventDate,
-                            Name = record.Name,
-                            LocationName = db.Locations.Where(l => l.LocationId == record.LocationId).FirstOrDefault().Name,
-                            WallpaperContent = db.Photos.Where(p => p.EventId == record.EventId).FirstOrDefault().Content,
-                            DtAdded = record.DtAdded,
-                            Status = record.Status
-                        };
+        //                var newEvent = new EventDetailsViewModel()
+        //                {
+        //                    EventId = record.EventId,
+        //                    Description = record.Description,
+        //                    EventDate = record.EventDate,
+        //                    Name = record.Name,
+        //                    LocationName = db.Locations.Where(l => l.LocationId == record.LocationId).FirstOrDefault().Name,
+        //                    WallpaperContent = db.Photos.Where(p => p.EventId == record.EventId).FirstOrDefault().Content,
+        //                    DtAdded = record.DtAdded,
+        //                    Status = record.Status
+        //                };
 
-                        var ArtistEventRecord = (from a in db.Artists
-                                                 join ae in db.ArtistEvents on a.ArtistId equals ae.ArtistId
-                                                 where ae.EventId == id
-                                                 select a).ToList();
+        //                var ArtistEventRecord = (from a in db.Artists
+        //                                         join ae in db.ArtistEvents on a.ArtistId equals ae.ArtistId
+        //                                         where ae.EventId == id
+        //                                         select a).ToList();
 
-                        var ArtistListForEvent = new List<EventArtistViewModel>();
-                        foreach (var item in ArtistEventRecord)
-                        {
-                            var newArtist = new EventArtistViewModel()
-                            {
-                                ArtistName = item.Name,
-                                FacebookUrl = item.FacebookUrl
-                            };
-                            ArtistListForEvent.Add(newArtist);
-                        }
-                        ViewBag.Artist = ArtistListForEvent;
+        //                var ArtistListForEvent = new List<EventArtistViewModel>();
+        //                foreach (var item in ArtistEventRecord)
+        //                {
+        //                    var newArtist = new EventArtistViewModel()
+        //                    {
+        //                        ArtistName = item.Name,
+        //                        FacebookUrl = item.FacebookUrl
+        //                    };
+        //                    ArtistListForEvent.Add(newArtist);
+        //                }
+        //                ViewBag.Artist = ArtistListForEvent;
 
-                        var SponsorEventRecord = (from s in db.Sponsors
-                                                  join se in db.SponsorEvents on s.SponsorId equals se.SponsorId
-                                                  where se.EventId == id
-                                                  select s).ToList();
+        //                var SponsorEventRecord = (from s in db.Sponsors
+        //                                          join se in db.SponsorEvents on s.SponsorId equals se.SponsorId
+        //                                          where se.EventId == id
+        //                                          select s).ToList();
 
-                        var SponsorListForEvent = new List<EventSponsorViewModel>();
-                        foreach (var item in SponsorEventRecord)
-                        {
-                            var newSponsor = new EventSponsorViewModel()
-                            {
-                                SponsorName = item.Name,
-                                SponsorImage = item.Content
-                            };
-                            SponsorListForEvent.Add(newSponsor);
-                        }
-                        ViewBag.Sponsor = SponsorListForEvent;
+        //                var SponsorListForEvent = new List<EventSponsorViewModel>();
+        //                foreach (var item in SponsorEventRecord)
+        //                {
+        //                    var newSponsor = new EventSponsorViewModel()
+        //                    {
+        //                        SponsorName = item.Name,
+        //                        SponsorImage = item.Content
+        //                    };
+        //                    SponsorListForEvent.Add(newSponsor);
+        //                }
+        //                ViewBag.Sponsor = SponsorListForEvent;
 
-                        //var photo = db.Photos.Where(p => p.EventId == id).FirstOrDefault();
-                        //ViewBag.Photo = photo;
+        //                //var photo = db.Photos.Where(p => p.EventId == id).FirstOrDefault();
+        //                //ViewBag.Photo = photo;
 
-                        return View(newEvent);
-                    }
+        //                return View(newEvent);
+        //            }
 
-                    return RedirectToAction("Error404", "Home");
-                }
+        //            return RedirectToAction("Error404", "Home");
+        //        }
 
-                return RedirectToAction("Login", "Account");
-            }
-            catch (Exception ex)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
-            }
-        }
+        //        return RedirectToAction("Login", "Account");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
+        //    }
+        //}
 
         // GET: Events/Create
         public ActionResult Create()
