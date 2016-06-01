@@ -297,6 +297,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Name.cs" />
     <Compile Include="Models\Outlet.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Sponsor.cs" />
