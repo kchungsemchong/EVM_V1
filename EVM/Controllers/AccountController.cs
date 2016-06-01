@@ -186,8 +186,9 @@ namespace EVM.Controllers
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                             ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                             if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
-                            Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
-                            await sendEmailNotification;
+
+                            //Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
+                            //await sendEmailNotification;
 
                             return RedirectToAction("Index", "Admin");
                         }
