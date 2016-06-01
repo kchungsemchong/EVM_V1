@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EVM.BusinessLogic;
+using EVM.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using EVM.BusinessLogic;
-using EVM.Models;
 
 namespace EVM.Controllers
 {
@@ -61,31 +61,31 @@ namespace EVM.Controllers
             return View();
         }
 
-        //public ActionResult Events()
-        //{
-        //    if (User.IsInRole("Admin"))
-        //    {
-        //        return RedirectToAction("Index", "Admin");
-        //    }
+        public ActionResult Events()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
 
-        //    var records = _repo.Retrieve();
+            var records = _repo.Retrieve();
 
-        //    var eventList = new List<EventViewModel>();
-        //    foreach (var item in records)
-        //    {
-        //        var newEvent = new EventViewModel()
-        //        {
-        //            EventId = item.EventId,
-        //            Description = item.Description,
-        //            EventDate = item.EventDate,
-        //            Name = item.Name,
-        //            LocationName = db.Locations.Where(l => l.LocationId == item.LocationId).FirstOrDefault().Name,
-        //            WallpaperContent = db.Photos.Where(p => p.EventId == item.EventId).FirstOrDefault().Content
-        //        };
-        //        eventList.Add(newEvent);
-        //    }
+            var eventList = new List<EventViewModel>();
+            foreach (var item in records)
+            {
+                var newEvent = new EventViewModel()
+                {
+                    EventId = item.EventId,
+                    Description = item.Description,
+                    EventDate = item.EventDate,
+                    Name = item.Name,
+                    LocationName = db.Locations.Where(l => l.LocationId == item.LocationId).FirstOrDefault().Name,
+                    WallpaperContent = db.Photos.Where(p => p.EventId == item.EventId).FirstOrDefault().Content
+                };
+                eventList.Add(newEvent);
+            }
 
-        //    return View(eventList);
-        //}
+            return View(eventList);
+        }
     }
 }
