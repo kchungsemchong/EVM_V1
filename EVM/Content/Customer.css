@@ -4,9 +4,9 @@
     background-size: cover;
 }
 
-body h1,h2,h3,h4,p{
+/*body h1,h2,h3,h4,p{
     color:#ffd800;
-}
+}*/
 
 .navbar-twitch {
     position: fixed;
@@ -16,7 +16,7 @@ body h1,h2,h3,h4,p{
     height: 100%;
     border-radius: 0px;
     border: 0px;
-    border-right:1px solid #c6c2c2;
+    border-right: 1px solid #c6c2c2;
     z-index: 1030;
     /*background-color:#000000;*/
 }
