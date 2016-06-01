@@ -220,8 +220,9 @@ namespace EVM.Controllers
 
                     record.Status = "Deactivated";
                     db.SaveChanges();
-                    Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
-                    await sendEmailNotification;
+
+                    //Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
+                    //await sendEmailNotification;
                     return RedirectToAction("RetrieveAdminAccounts", "Account");
                 }
 
@@ -248,8 +249,9 @@ namespace EVM.Controllers
 
                     record.Status = "Activated";
                     db.SaveChanges();
-                    Task sendEmailNotification = SendEmailNotification(record.Email, "Activation");
-                    await sendEmailNotification;
+
+                    //Task sendEmailNotification = SendEmailNotification(record.Email, "Activation");
+                    //await sendEmailNotification;
                     return RedirectToAction("RetrieveAdminAccounts", "Account");
                 }
 
