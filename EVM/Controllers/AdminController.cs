@@ -11,6 +11,9 @@ namespace EVM.Controllers
         // GET: Admin
         public ActionResult Index()
         {
+            if (User.IsInRole("Super"))
+                RedirectToAction("Index", "SuperAdmin");
+
             if (User.IsInRole("Admin"))
             {
                 return View();
