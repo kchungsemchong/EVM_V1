@@ -1,4 +1,8 @@
-﻿using System;
+﻿using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -8,10 +12,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -86,7 +86,7 @@ namespace EVM.Controllers
                 case SignInStatus.Success:
                     return RedirectToAction("Index", "Admin");
 
-                //return RedirectToLocal(returnUrl);
+                // return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:
                     return View("Lockout");

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EVM.Models.Event>
+﻿@model IEnumerable<EVM.Models.EventViewModel>
 @{
     Layout = "~/Views/Shared/DefaultLayout.cshtml";
 }
@@ -15,13 +15,13 @@
         box-shadow: 0 0 1px #CCC;
     }
 
-        .post img {
+        /*.post img {
             filter: blur(2px);
             -webkit-filter: blur(2px);
             -moz-filter: blur(2px);
             -o-filter: blur(2px);
             -ms-filter: blur(2px);
-        }
+        }*/
 
         .post .content {
             padding: 15px;
@@ -62,25 +62,26 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-sm-4 col-md-4">
+        <div class="col-sm-4 col-md-4 card">
             <div class="post">
-                <div class="post-img-content">
-                    <img src="data:image;base64,@System.Convert.ToBase64String(ViewBag.Photo.Content)" class="img-responsive"/>
-                    <span class="post-title">
-                        <b>@item.Name</b><br/>
-                        @*<b>CSS3 Blur</b>*@
-                    </span>
-                </div>
+                <a href="@Url.Action("EventDetails", "Home", new { id = item.EventId})" title="@item.Name">
+                    <div class="post-img-content">
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.WallpaperContent)" class="img-responsive" />
+                        <span class="post-title">
+                            <b>@item.Name</b><br />
+                            <b><time>@item.EventDate</time></b>
+                        </span>
+                    </div>
+                </a>
                 <div class="content">
                     <div class="author">
-                        By <b>Artist Name</b> |
-                        <time>@item.EventDate</time>
+                        <b></b>
                     </div>
                     <div>
                         @item.Description
                     </div>
                     <div>
-                        <a href="#" class="btn btn-warning btn-sm">Read more</a>
+                        <a href="@Url.Action("EventDetails", "Home", new { id = item.EventId})" class="btn btn-warning btn-sm">Read more</a>
                     </div>
                 </div>
             </div>

@@ -61,7 +61,56 @@ namespace EVM.Controllers
                         if (record.EventId < 1)
                             return RedirectToAction("Error404", "Home");
 
-                        return View(record);
+                        var newEvent = new EventDetailsViewModel()
+                        {
+                            EventId = record.EventId,
+                            Description = record.Description,
+                            EventDate = record.EventDate,
+                            Name = record.Name,
+                            LocationName = db.Locations.Where(l => l.LocationId == record.LocationId).FirstOrDefault().Name,
+                            WallpaperContent = db.Photos.Where(p => p.EventId == record.EventId).FirstOrDefault().Content,
+                            DtAdded = record.DtAdded,
+                            Status = record.Status
+                        };
+
+                        var ArtistEventRecord = (from a in db.Artists
+                                                 join ae in db.ArtistEvents on a.ArtistId equals ae.ArtistId
+                                                 where ae.EventId == id
+                                                 select a).ToList();
+
+                        var ArtistListForEvent = new List<EventArtistViewModel>();
+                        foreach (var item in ArtistEventRecord)
+                        {
+                            var newArtist = new EventArtistViewModel()
+                            {
+                                ArtistName = item.Name,
+                                FacebookUrl = item.FacebookUrl
+                            };
+                            ArtistListForEvent.Add(newArtist);
+                        }
+                        ViewBag.Artist = ArtistListForEvent;
+
+                        var SponsorEventRecord = (from s in db.Sponsors
+                                                  join se in db.SponsorEvents on s.SponsorId equals se.SponsorId
+                                                  where se.EventId == id
+                                                  select s).ToList();
+
+                        var SponsorListForEvent = new List<EventSponsorViewModel>();
+                        foreach (var item in SponsorEventRecord)
+                        {
+                            var newSponsor = new EventSponsorViewModel()
+                            {
+                                SponsorName = item.Name,
+                                SponsorImage = item.Content
+                            };
+                            SponsorListForEvent.Add(newSponsor);
+                        }
+                        ViewBag.Sponsor = SponsorListForEvent;
+
+                        //var photo = db.Photos.Where(p => p.EventId == id).FirstOrDefault();
+                        //ViewBag.Photo = photo;
+
+                        return View(newEvent);
                     }
 
                     return RedirectToAction("Error404", "Home");
@@ -506,6 +555,11 @@ namespace EVM.Controllers
                 {
                     return RedirectToAction("Error404", "Home");
                 }
+
+                Session.Remove("Event");
+                Session.Remove("ArtistListForEvent");
+                Session.Remove("EventLocation");
+                Session.Remove("SponsorListForEvent");
 
                 return RedirectToAction("Details", "Events", new { id = NewEvent.EventId });
             }
