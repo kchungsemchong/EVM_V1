@@ -17,5 +17,7 @@ namespace EVM.Models
         [Display(Name = "Date Added")]
         public Nullable<DateTime> DtAdded { get; set; }
         public string Status { get; set; }
+        public string ContentType { get; set; }
+        public byte[] Content { get; set; }
     }
 }

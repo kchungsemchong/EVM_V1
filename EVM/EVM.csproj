@@ -285,6 +285,10 @@
     <Compile Include="Migrations\201605311929388_Add EventId to Table Photo.Designer.cs">
       <DependentUpon>201605311929388_Add EventId to Table Photo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606011042092_Add Photo Properties to Sponsor.cs" />
+    <Compile Include="Migrations\201606011042092_Add Photo Properties to Sponsor.Designer.cs">
+      <DependentUpon>201606011042092_Add Photo Properties to Sponsor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Artist.cs" />
@@ -481,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605311929388_Add EventId to Table Photo.resx">
       <DependentUpon>201605311929388_Add EventId to Table Photo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606011042092_Add Photo Properties to Sponsor.resx">
+      <DependentUpon>201606011042092_Add Photo Properties to Sponsor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
