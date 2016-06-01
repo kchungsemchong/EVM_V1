@@ -87,11 +87,7 @@ namespace EVM.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    if (User.IsInRole("Admin"))
-                    {
-                        return RedirectToAction("Index", "Admin");
-                    }
-                    return RedirectToAction("Index", "SuperAdmin");
+                    return RedirectToAction("Index", "Admin");
 
                 // return RedirectToLocal(returnUrl);
 
