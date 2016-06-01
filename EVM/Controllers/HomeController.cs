@@ -22,6 +22,10 @@ namespace EVM.Controllers
 
         public ActionResult Index()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             return View();
         }
 
@@ -32,6 +36,10 @@ namespace EVM.Controllers
 
         public ActionResult About()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             ViewBag.Message = "Your application description page.";
 
             return View();
@@ -39,6 +47,10 @@ namespace EVM.Controllers
 
         public ActionResult Contact()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             ViewBag.Message = "Your contact page.";
 
             return View();
@@ -51,6 +63,11 @@ namespace EVM.Controllers
 
         public ActionResult Events()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             var records = _repo.Retrieve();
 
             var eventList = new List<EventViewModel>();
