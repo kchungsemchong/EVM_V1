@@ -260,7 +260,9 @@ namespace EVM.Controllers
 
         public ActionResult RetrieveAdminAccounts()
         {
-            return View();
+            var records = db.Users.Where(x => x.Email != "patrick.leevent@sharklasers.com").ToList();
+
+            return View(records);
         }
 
         //
