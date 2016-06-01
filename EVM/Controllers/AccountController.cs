@@ -1,4 +1,8 @@
-﻿using System;
+﻿using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -8,10 +12,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -89,7 +89,7 @@ namespace EVM.Controllers
                 case SignInStatus.Success:
                     if (User.IsInRole("Admin"))
                     {
-                    return RedirectToAction("Index", "Admin");
+                        return RedirectToAction("Index", "Admin");
                     }
                     return RedirectToAction("Index", "SuperAdmin");
 
@@ -160,8 +160,8 @@ namespace EVM.Controllers
         {
             if (User.IsInRole("Super"))
             {
-            return View();
-        }
+                return View();
+            }
             return RedirectToAction("Login", "Account");
         }
 
@@ -195,7 +195,7 @@ namespace EVM.Controllers
                             //Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
                             //await sendEmailNotification;
 
-                            return RedirectToAction("Index", "Admin");
+                            return RedirectToAction("Index", "SuperAdmin");
                         }
                         AddErrors(result);
                     }
