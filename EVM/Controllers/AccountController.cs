@@ -221,9 +221,38 @@ namespace EVM.Controllers
                                   select user).FirstOrDefault();
 
                     if (String.IsNullOrEmpty(record.Id))
-                        return RedirectToAction("Index", "Super");
+                        return RedirectToAction("Index", "SuperAdmin");
 
                     record.Status = "Deactivated";
+                    db.SaveChanges();
+
+                    //Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
+                    //await sendEmailNotification;
+                    return RedirectToAction("Index", "SuperAdmin");
+                }
+
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+        public ActionResult ActivateAccount(string id)
+        {
+            try
+            {
+                if (User.IsInRole("Super"))
+                {
+                    var record = (from user in db.Users
+                                  where user.Id == id
+                                  select user).FirstOrDefault();
+
+                    if (String.IsNullOrEmpty(record.Id))
+                        return RedirectToAction("Index", "SuperAdmin");
+
+                    record.Status = "Active";
                     db.SaveChanges();
 
                     //Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
