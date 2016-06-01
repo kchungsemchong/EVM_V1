@@ -1,8 +1,4 @@
-﻿using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -12,6 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -210,7 +210,7 @@ namespace EVM.Controllers
             }
         }
 
-        public async Task<ActionResult> DeactivateAccount(string id)
+        public ActionResult DeactivateAccount(string id)
         {
             try
             {
@@ -221,13 +221,14 @@ namespace EVM.Controllers
                                   select user).FirstOrDefault();
 
                     if (String.IsNullOrEmpty(record.Id))
-                        return RedirectToAction("Index", "SuperAdmin");
+                        return RedirectToAction("Index", "Super");
 
                     record.Status = "Deactivated";
                     db.SaveChanges();
-                    Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
-                    await sendEmailNotification;
-                    return RedirectToAction("RetrieveAdminAccounts", "Account");
+
+                    //Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
+                    //await sendEmailNotification;
+                    return RedirectToAction("Index", "SuperAdmin");
                 }
 
                 return RedirectToAction("Login", "Account");
