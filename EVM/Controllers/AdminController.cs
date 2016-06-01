@@ -12,7 +12,7 @@ namespace EVM.Controllers
         public ActionResult Index()
         {
             if (User.IsInRole("Super"))
-                RedirectToAction("Index", "SuperAdmin");
+                return RedirectToAction("Index", "SuperAdmin");
 
             if (User.IsInRole("Admin"))
             {
