@@ -1,8 +1,4 @@
-﻿using EVM.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -12,6 +8,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using EVM.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace EVM.Controllers
 {
@@ -80,6 +80,9 @@ namespace EVM.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+            if (result.ToString() == "Success")
+                return RedirectToAction("Index", "Super");
 
             switch (result)
             {
@@ -215,6 +218,34 @@ namespace EVM.Controllers
                     record.Status = "Deactivated";
                     db.SaveChanges();
                     Task sendEmailNotification = SendEmailNotification(record.Email, "Deactivation");
+                    await sendEmailNotification;
+                    return RedirectToAction("RetrieveAdminAccounts", "Account");
+                }
+
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception ex)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.ToString());
+            }
+        }
+
+        public async Task<ActionResult> ActivateAccount(string id)
+        {
+            try
+            {
+                if (User.IsInRole("Super"))
+                {
+                    var record = (from user in db.Users
+                                  where user.Id == id
+                                  select user).FirstOrDefault();
+
+                    if (String.IsNullOrEmpty(record.Id))
+                        return RedirectToAction("RetrieveAdminAccounts", "Account");
+
+                    record.Status = "Activated";
+                    db.SaveChanges();
+                    Task sendEmailNotification = SendEmailNotification(record.Email, "Activation");
                     await sendEmailNotification;
                     return RedirectToAction("RetrieveAdminAccounts", "Account");
                 }
