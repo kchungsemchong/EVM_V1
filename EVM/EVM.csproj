@@ -212,6 +212,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OutletsController.cs" />
     <Compile Include="Controllers\SponsorsController.cs" />
+    <Compile Include="Controllers\SuperAdminController.cs" />
     <Compile Include="Controllers\TariffsController.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Global.asax.cs">
@@ -297,6 +298,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Name.cs" />
     <Compile Include="Models\Outlet.cs" />
     <Compile Include="Models\Photo.cs" />
     <Compile Include="Models\Sponsor.cs" />
@@ -426,6 +428,8 @@
     <Content Include="Views\Sponsors\Details.cshtml" />
     <Content Include="Views\Sponsors\Create.cshtml" />
     <Content Include="Views\Sponsors\Edit.cshtml" />
+    <Content Include="Views\Shared\SuperAdminLayout.cshtml" />
+    <Content Include="Views\SuperAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
