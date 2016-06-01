@@ -34,7 +34,7 @@
 
         <p>Click the button below to trigger a Share Dialog</p>
 
-        <div id="shareBtn" class="btn btn-success clearfix">Share</div>
+        
 
         <p style="margin-top: 50px">
             <hr/>
@@ -43,55 +43,3 @@
     </div>
 </div>
 
-@section scripts{
-    <script>
-
-        //$.ajaxSetup({ cache: true });
-        //$.getScript('//connect.facebook.net/en_US/sdk.js', function () {
-        //    FB.init({
-        //        //appId: '184484190795',
-        //        version: 'v2.6', // or v2.0, v2.1, v2.2, v2.3
-
-        //        appId: '870614503083022',
-        //frictionlessRequests: true,
-        //init: true,
-        //level: "debug",
-        //signedRequest: null,
-        //status: true,
-        //viewMode: "website",
-        //autoRun: true
-        //    });
-        //    $('#loginbutton,#feedbutton').removeAttr('disabled');
-        //    FB.getLoginStatus(updateStatusCallback);
-        //});
-    </script>
-
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '870614503083022',
-                xfbml: true,
-                version: 'v2.6'
-            });
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-        $(document).ready(function () {
-
-            $('#shareBtn').click(function () {
-                FB.ui({
-                    method: 'share',
-                    display: 'popup',
-                    href: 'http://leevent.azurewebsites.net/',
-                }, function (response) { });
-            });
-        });
-    </script>
-}

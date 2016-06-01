@@ -67,9 +67,9 @@
             <div class="post">
                 <a href="@Url.Action("EventDetails", "Home", new { id = item.EventId})" title="@item.Name">
                     <div class="post-img-content">
-                        <img src="data:image;base64,@System.Convert.ToBase64String(item.WallpaperContent)" class="img-responsive" />
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.WallpaperContent)" class="img-responsive"/>
                         <span class="post-title">
-                            <b>@item.Name</b><br />
+                            <b>@item.Name</b><br/>
                             <b><time>@item.EventDate</time></b>
                         </span>
                     </div>

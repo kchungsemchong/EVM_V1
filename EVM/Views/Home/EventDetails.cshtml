@@ -1,0 +1,105 @@
+﻿@model EVM.Models.EventDetailsViewModel
+@{
+    Layout = "~/Views/Shared/DefaultLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">@Model.Name</h4>
+                <p class="category"></p>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-5 col-md-push-3">
+                        <img src="data:image;base64,@System.Convert.ToBase64String(Model.WallpaperContent)" class="img-responsive" title="@Model.Name"/>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12 author">
+                        @Model.Description
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-12 col-md-offset-10">
+                        <div id="shareBtn" class="btn btn-success clearfix" data-content="@Request.Url.ToString()">Share <span class="fa fa-facebook-square"></span></div>
+                    </div>
+                </div>
+                <hr/>
+                <hr class="card"/>
+                <div class="row">
+                    <div class="col-md-4">
+                        @Html.Label("Artist : ")
+
+                        <div>
+                            @foreach (var item in ViewBag.Artist)
+                            {
+                                <a href="@item.FacebookUrl">@item.ArtistName</a> <br/>
+                            }
+                        </div>
+                    </div>
+                    <div class=" col-md-4">
+                        @Html.Label("Location : ") @Model.LocationName
+                    </div>
+                    <div class=" col-md-4">
+                        @Html.Label("Date : ") @Model.EventDate
+                    </div>
+                </div>
+                <hr/>
+                <hr class="card"/>
+                <div class="row">
+                    <div class="col-md-7">
+                        @Html.Label("Sponsors : ")
+                        <hr/>
+                        @foreach (var item in ViewBag.Sponsor)
+                        {
+
+                            <div class=" col-md-4 col-xs-6">
+                                <div class="thumbnail">
+                                    <img src="data:image;base64,@System.Convert.ToBase64String(item.SponsorImage)" class="img-responsive"/>
+                                    <h4 class="text-center"><span class="label label-info">@item.SponsorName</span></h4>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '870614503083022',
+                xfbml: true,
+                version: 'v2.6'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+        $(document).ready(function () {
+
+            $('#shareBtn').click(function () {
+                var url = $(this).attr('data-content');
+                alert(url);
+                FB.ui({
+                    method: 'share',
+                    display: 'popup',
+                    href: url,
+                }, function (response) { });
+            });
+        });
+    </script>
+}
