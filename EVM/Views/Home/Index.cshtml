@@ -27,4 +27,51 @@
     </div>
 </div>
 <div class="row">
+    <div class="col-md-7">
+        <div class="page-header">
+            <h1>Share Dialog</h1>
+        </div>
+
+        <p>Click the button below to trigger a Share Dialog</p>
+
+        <div id="shareBtn" class="btn btn-success clearfix">Share</div>
+
+        <p style="margin-top: 50px">
+            <hr/>
+            <a class="btn btn-small" href="https://developers.facebook.com/docs/sharing/reference/share-dialog">Share Dialog Documentation</a>
+        </p>
+    </div>
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $.ajaxSetup({ cache: true });
+            $.getScript('//connect.facebook.net/en_US/sdk.js', function () {
+                FB.init({
+                    //appId: '184484190795',
+                    version: 'v2.5', // or v2.0, v2.1, v2.2, v2.3
+
+                     appId: "184484190795",
+                  frictionlessRequests: true,
+                  init: true,
+                  level: "debug",
+                  signedRequest: null,
+                  status: true,
+                  viewMode: "website",
+                  autoRun: true
+                });
+                $('#loginbutton,#feedbutton').removeAttr('disabled');
+                FB.getLoginStatus(updateStatusCallback);
+            });
+
+            $('#shareBtn').click(function () {
+                FB.ui({
+                    method: 'share',
+                    display: 'popup',
+                    href: 'https://developers.facebook.com/docs/',
+                }, function (response) { });
+            });
+        });
+    </script>
+}
