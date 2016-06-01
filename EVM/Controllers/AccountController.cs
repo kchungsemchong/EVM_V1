@@ -154,14 +154,16 @@ namespace EVM.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            if (User.IsInRole("Super"))
+                return View();
+
+            return RedirectToAction("Login", "Account");
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             try
