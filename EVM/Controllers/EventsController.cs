@@ -556,6 +556,11 @@ namespace EVM.Controllers
                     return RedirectToAction("Error404", "Home");
                 }
 
+                Session.Remove("Event");
+                Session.Remove("ArtistListForEvent");
+                Session.Remove("EventLocation");
+                Session.Remove("SponsorListForEvent");
+
                 return RedirectToAction("Details", "Events", new { id = NewEvent.EventId });
             }
             return RedirectToAction("Login", "Account");
