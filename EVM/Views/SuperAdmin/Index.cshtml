@@ -51,7 +51,15 @@
 
                                 @*@Html.ActionLink("Edit", "Edit", new { id = item.ArtistId }) |*@
                                 @*@Html.ActionLink("Deactivate", "DeactivateAccount", "Account", new { id = item.Id })*@
-                                <a href="@Url.Action("DeactivateAccount", "Account", new { id = item.Id})">Deactivate</a>
+
+                                @if (item.Status == "Active")
+                                {
+                                    <a href="@Url.Action("DeactivateAccount", "Account", new { id = item.Id})">Deactivate</a>
+                                }
+                                @if (item.Status == "Deactivated")
+                                {
+                                    <a href="@Url.Action("ActivateAccount", "Account", new { id = item.Id})">A>Activate</a>
+                                }
                             </td>
                         </tr>
                     }
