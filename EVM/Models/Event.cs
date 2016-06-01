@@ -23,4 +23,38 @@ namespace EVM.Models
         public Location Location { get; set; }
         public IEnumerable<Tariff> Tariffs { get; set; }
     }
+
+    public class EventDetailsViewModel
+    {
+        public int EventId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Nullable<DateTime> EventDate { get; set; }
+        public string LocationName { get; set; }
+        public byte[] WallpaperContent { get; set; }
+        public Nullable<DateTime> DtAdded { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class EventViewModel
+    {
+        public int EventId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Nullable<DateTime> EventDate { get; set; }
+        public string LocationName { get; set; }
+        public byte[] WallpaperContent { get; set; }
+    }
+
+    public class EventArtistViewModel
+    {
+        public string ArtistName { get; set; }
+        public string FacebookUrl { get; set; }
+    }
+
+    public class EventSponsorViewModel
+    {
+        public string SponsorName { get; set; }
+        public byte[] SponsorImage { get; set; }
+    }
 }
