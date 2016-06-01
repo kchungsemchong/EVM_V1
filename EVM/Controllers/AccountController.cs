@@ -161,34 +161,32 @@ namespace EVM.Controllers
         {
             try
             {
-                //if (User.IsInRole("Super"))
-                //{
-                if (ModelState.IsValid)
+                if (User.IsInRole("Super"))
                 {
-                    var user = new ApplicationUser
+                    if (ModelState.IsValid)
                     {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        UserName = model.Email,
-                        Email = model.Email,
-                        Status = "Active"
-                    };
-                    var result = await UserManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
-                    {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
-                        if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
+                        var user = new ApplicationUser
+                        {
+                            FirstName = model.FirstName,
+                            LastName = model.LastName,
+                            UserName = model.Email,
+                            Email = model.Email,
+                            Status = "Active"
+                        };
+                        var result = await UserManager.CreateAsync(user, model.Password);
+                        if (result.Succeeded)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            ApplicationUser newUser = db.Users.Where(u => u.Email.Equals(user.Email, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                            if (newUser != null) UserManager.AddToRole(newUser.Id, "Admin");
+                            Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
+                            await sendEmailNotification;
 
-                        //Task sendEmailNotification = SendEmailNotification(user.Email, "Activation");
-                        //await sendEmailNotification;
-
-                        return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Admin");
+                        }
+                        AddErrors(result);
                     }
-                    AddErrors(result);
                 }
-
-                //}
 
                 // If we got this far, something failed, redisplay form
                 return View();
@@ -520,7 +518,7 @@ namespace EVM.Controllers
         public static async Task SendEmailNotification(string email, string reason)
         {
             string body = String.Empty;
-            string baseUri = String.Empty;
+            string baseUri = "http://leevent.azurewebsites.net";
             if (reason == "Activation")
             {
                 body = "<p>Hi there!</p>" +
