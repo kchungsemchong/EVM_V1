@@ -18,7 +18,11 @@ namespace EVM.Controllers
         {
             if (User.IsInRole("Super"))
             {
-                var records = db.Users.ToList();
+                var roleAdmin = db.Roles.Where(r => r.Name == "Admin").FirstOrDefault().Id;
+                var records = from u in db.Users
+                              where u.Roles.Any(r => r.RoleId == roleAdmin)
+                              select u;
+
                 return View(records);
             }
             return RedirectToAction("Login", "Account");
