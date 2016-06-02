@@ -15,7 +15,9 @@ namespace EVM.Models
         public int LocationId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [DataType(DataType.Date)]
         public Nullable<DateTime> EventDate { get; set; }
+        [DataType(DataType.Date)]
         public Nullable<DateTime> DtAdded { get; set; }
         public string Status { get; set; }
 
@@ -29,6 +31,7 @@ namespace EVM.Models
         public int EventId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [DataType(DataType.Date)]
         public Nullable<DateTime> EventDate { get; set; }
         public string LocationName { get; set; }
         public byte[] WallpaperContent { get; set; }
@@ -41,6 +44,7 @@ namespace EVM.Models
         public int EventId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [DataType(DataType.Date)]
         public Nullable<DateTime> EventDate { get; set; }
         public string LocationName { get; set; }
         public byte[] WallpaperContent { get; set; }
