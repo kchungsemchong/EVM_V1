@@ -81,6 +81,14 @@ namespace EVM.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
+            var currentUser = db.Users.Where(x => x.Email == model.Email).FirstOrDefault();
+            if (String.IsNullOrEmpty(currentUser.Id))
+                return RedirectToAction("Account", "Login");
+            if (currentUser.Status == "Deactivated")
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                return RedirectToAction("Login", "Account");
+            }
             switch (result)
             {
                 case SignInStatus.Success:
